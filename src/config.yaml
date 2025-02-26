@@ -16,15 +16,15 @@ metadata:
     index: true
     follow: true
   openGraph:
-    site_name: bgx4k3p
+    site_name: CyberEdge
     images:
       - url: '~/assets/images/default.png'
         width: 1200
         height: 628
     type: website
   twitter:
-    handle: '@onwidget'
-    site: '@onwidget'
+    handle: '@bgx4k3p'
+    site: '@bgx4k3p'
     cardType: summary_large_image
 
 i18n:
