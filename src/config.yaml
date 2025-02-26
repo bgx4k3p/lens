@@ -16,6 +16,7 @@ metadata:
     index: true
     follow: true
   openGraph:
+    title: CyberEdge
     site_name: CyberEdge
     images:
       - url: '~/assets/images/default.png'
