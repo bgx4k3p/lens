@@ -1,0 +1,544 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Header from '~/components/widgets/Header.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Content from '~/components/widgets/Content.astro';
+//import CallToAction from '~/components/widgets/CallToAction.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+//import Testimonials from '~/components/widgets/Testimonials.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
+import { getPermalink } from '~/utils/permalinks';
+
+const metadata = {
+  title: 'Emil Chukalov',
+};
+---
+
+<Layout metadata={metadata}>
+  <Fragment slot="header">
+    <Header
+      links={[
+        { text: 'Home', href: getPermalink('/') },
+        { text: 'About', href: '#about' },
+        { text: 'Resume', href: '#resume' },
+        { text: 'Portfolio', href: '#portfolio' },
+        { text: 'Blog', href: '#blog' },
+        { text: 'GitHub', icon: 'tabler:brand-github', href: 'https://github.com/bgx4k3p' },
+      ]}
+      actions={[
+        //{text: 'Hire me', href: '#'},
+      ]}
+      isSticky
+      showToggleTheme
+      showRssFeed
+    />
+  </Fragment>
+
+  <!-- Hero2 Widget ******************* -->
+
+  <Hero
+    id="hero"
+    title="Emil Chukalov"
+    tagline="Personal Web"
+    actions={[
+      //{ variant: 'primary', text: 'Hire me', href: getPermalink('/contact#form') }
+    ]}
+  >
+    <Fragment slot="subtitle">
+      🛡️ Transformative Security Leader | Strategic Visionary | AI-Powered Automation Advocate
+    </Fragment>
+  </Hero>
+
+  <!-- Content Widget **************** -->
+
+  <Content
+    id="about"
+    columns={3}
+    items={[
+      {
+        icon: 'tabler:brand-linkedin',
+        callToAction: {
+          target: '_blank',
+          text: 'LinkedIn',
+          href: 'https://www.linkedin.com/in/chukalov/',
+        },
+      },
+      {
+        icon: 'tabler:brand-github',
+        callToAction: {
+          target: '_blank',
+          text: 'GitHub',
+          href: 'https://github.com/bgx4k3p',
+        },
+      },
+      {
+        icon: 'tabler:mail',
+        callToAction: {
+          target: '_blank',
+          text: 'Mail',
+          href: 'mailto:bgx4k3p@gmail.com',
+        },
+      },
+    ]}
+    image={{
+      src: '~/assets/images/emil.png',
+      alt: 'Colorful Image',
+      loading: 'eager',
+      style: {
+        width: '100px', // Example: Even smaller width
+        height: 'auto',
+      },
+    }}
+  >
+    <Fragment slot="content">
+      <h2 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">About me</h2>
+      <p>
+        For over 18 years I've been deciphering complexities in the Enterprise Security trenches, from fortifying
+        defenses to designing proactive measures against threats.
+      </p>
+      <br />
+      <p>
+        My journey is driven by a passion for leading transformative security initiatives through strategic vision and
+        intelligent automation, ensuring robust protection while empowering agile business operations.
+      </p>
+      <br />
+      <p>If you're curious to dive deeper into my work, you can follow me:</p>
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Steps Widget ****************** -->
+
+  <Steps
+    id="resume"
+    title="Work experience"
+    items={[
+      {
+        title:
+          'VP, DIRECTOR INFORMATION SECURITY ENGINEERING <br/> <span class="font-normal">Fifth Third Bank, Cincinnati OH (Remote)</span> <br/> <span class="text-sm font-normal">5/2022 – 12/2024</span>',
+        description: `TBA <br/>  <br/> <br/> `,
+        icon: 'tabler:briefcase',
+      },
+      {
+        title:
+          'INFORMATION SECURITY DIRECTOR<br/><span class="font-normal">\
+          Freddie Mac, McLean VA \
+          </span> <br/> <span class="text-sm font-normal"> \
+          10/2021 – 5/2022 \
+          </span>',
+        description: `Head of Offensive Security and Security Event Management teams. <br/> TBA <br/>`,
+        icon: 'tabler:briefcase',
+      },
+      {
+        title:
+          'INFORMATION SECURITY DIRECTOR<br/><span class="font-normal">\
+          Freddie Mac, McLean VA \
+          </span> <br/> <span class="text-sm font-normal"> \
+          10/2021 – 5/2022 \
+          </span>',
+        description: `TBA <br/>  <br/>`,
+        icon: 'tabler:briefcase',
+      },
+      {
+        title:
+          'INFORMATION SECURITY SENIOR MANAGER<br/><span class="font-normal">\
+          Freddie Mac, McLean VA \
+          </span> <br/> <span class="text-sm font-normal"> \
+          9/2017 – 10/2021 \
+          </span>',
+        description: `TBA <br/>  <br/>`,
+        icon: 'tabler:briefcase',
+      },
+      {
+        title:
+          'INFORMATION SECURITY CONSULTANT<br/><span class="font-normal">\
+          Axxum Technologies, Herndon, VA \
+          </span> <br/> <span class="text-sm font-normal"> \
+          02/2016 – 09/2017 \
+          </span>',
+        description: `TBA <br/>  <br/>`,
+        icon: 'tabler:briefcase',
+      },
+      {
+        title:
+          'RED TEAM PENETRATION TESTER<br/><span class="font-normal">\
+          Booz Allen Hamilton, McLean, VA \
+          </span> <br/> <span class="text-sm font-normal"> \
+          08/2015 -02/2016 \
+          </span>',
+        description: `TBA <br/>  <br/>`,
+        icon: 'tabler:briefcase',
+      },
+      {
+        title:
+          'VULNERABILITY MANAGEMENT LEAD<br/><span class="font-normal">\
+          Booz Allen Hamilton, McLean, VA \
+          </span> <br/> <span class="text-sm font-normal"> \
+          09/2013 – 08/2015 \
+          </span>',
+        description: `TBA <br/>  <br/>`,
+        icon: 'tabler:briefcase',
+      },
+      {
+        title:
+          'INFORMATION TECHNOLOGY – TECH LEAD<br/><span class="font-normal">\
+          CompuCom, Herndon, VA \
+          </span> <br/> <span class="text-sm font-normal"> \
+          04/2007- 09/2013 \
+          </span>',
+        description: `TBA <br/>  <br/>`,
+        icon: 'tabler:briefcase',
+      },
+    ]}
+    classes={{ container: 'max-w-3xl' }}
+  />
+
+  <!-- Steps Widget ****************** -->
+
+  <Steps
+    id="resume"
+    title="Education"
+    items={[
+      {
+        title: `Master of Science (MS) in Computer Forensics, Concentration in Penetration Testing & Malware Reverse Engineering<br/> <span class="font-normal">George Mason University</span> <br/> <span class="text-sm font-normal">2016 - 2018, Summa Cum Laude</span>`,
+        icon: 'tabler:school',
+      },
+      {
+        title: `Bachelor of Science (BS) in Information Security <br/> <span class="font-normal">George Mason University</span> <br/> <span class="text-sm font-normal">2012 - 2015, Summa Cum Laude</span>`,
+        icon: 'tabler:school',
+      },
+    ]}
+    classes={{ container: 'max-w-3xl' }}
+  />
+
+  <!-- Features3 Widget - Professional Certifications ************** -->
+
+  <Features3
+    title="Professional Certifications"
+    subtitle="Cybersecurity Skills & Passion, Igniting Transformative Cybersecurity Innovation"
+    columns={4}
+    defaultIcon="tabler:point-filled"
+    items={[
+      {
+        title: 'CISSP',
+        description: 'ISC2 Certified Information Systems Security Professional',
+      },
+      {
+        title: 'GSLC',
+        description: 'GIAC Security Leadership',
+      },
+      {
+        title: 'GCSA',
+        description: 'GIAC Cloud Security and DevOps Automation',
+      },
+      {
+        title: 'GCPN',
+        description: 'GIAC Cloud Penetration Tester',
+      },
+      {
+        title: 'GXPN',
+        description: 'GIAC Exploit Researcher and Advanced Penetration Tester',
+      },
+      {
+        title: 'OSCP',
+        description: 'Offensive Security Certified Professional',
+      },
+      {
+        title: 'CEH',
+        description: 'Certified Ethical Hacker',
+      },
+      {
+        title: 'Security+',
+        description: 'CompTIA',
+      },
+      {
+        title: 'Secure Infrastructure Specialist',
+        description: 'CompTIA',
+      },
+      {
+        title: 'IT Operations Specialist',
+        description: 'CompTIA',
+      },
+      {
+        title: 'A+',
+        description: 'CompTIA',
+      },
+      {
+        title: 'NET+',
+        description: 'CompTIA',
+      },
+      {
+        title: 'MCP',
+        description: 'Microsoft Certified Professional',
+      },
+      {
+        title: 'MCTS',
+        description: 'Microsoft Certified Technical Specialist',
+      },
+      {
+        title: 'CCNA',
+        description: 'Cisco Certified Network Associate ',
+      },
+    ]}
+  />
+
+  <!-- Features3 Widget - Skills ************** -->
+
+  <!-- COMMENT FOR NOW
+  <Features3
+    title="Skills"
+    subtitle="Discover the proficiencies that allow me to bring imagination to life through design."
+    columns={3}
+    defaultIcon="tabler:point-filled"
+    items={[
+      {
+        title: 'CISSP',
+        description: 'ISC2 Certified Information Systems Security Professional',
+      },
+      {
+        title: 'Branding and identity',
+        description: 'Skilled at developing cohesive brand identities, including logos and brand guidelines.',
+      },
+      {
+        title: 'User-centered design',
+        description: 'Experienced in creating user-friendly interfaces and optimizing user experiences.',
+      },
+      {
+        title: 'Adobe Creative Suite',
+        description: 'Skilled in using Photoshop, Illustrator, and InDesign to create and edit visual elements.',
+      },
+      {
+        title: 'Typography',
+        description: 'Adept in selecting and manipulating typefaces to enhance design aesthetics.',
+      },
+      {
+        title: 'Color theory',
+        description: 'Proficient in using color to evoke emotions and enhance visual harmony.',
+      },
+      {
+        title: 'Print and digital design',
+        description: 'Knowledgeable in designing for both print materials and digital platforms.',
+      },
+      {
+        title: 'Attention to detail',
+        description: 'Diligent in maintaining precision and quality in all design work.',
+      },
+      {
+        title: 'Adaptability',
+        description: 'Quick to adapt to new design trends, technologies, and client preferences.',
+      },
+    ]}
+  />
+ -->
+
+  <!-- Content Widget - PORTFOLIO 1 **************** -->
+  <!-- COMMENT FOR NOW
+  <Content
+    id="portfolio"
+    title="Elevating visual narratives"
+    subtitle="Embark on a design journey that surpasses pixels, entering a realm of imagination. Explore my portfolio, where passion and creativity converge to shape enthralling visual narratives."
+    isReversed
+    items={[
+      {
+        title: 'Description:',
+        description:
+          'Developed a comprehensive brand identity for a tech startup, Tech Innovators, specializing in disruptive innovations. The goal was to convey a modern yet approachable image that resonated with both corporate clients and tech enthusiasts.',
+      },
+      {
+        title: 'Role:',
+        description:
+          'Led the entire branding process from concept to execution. Created a dynamic logo that symbolized innovation, selected a vibrant color palette, and I designed corporate stationery, website graphics, and social media assets.',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1658248165252-71e116af1b34?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=928&q=80',
+      alt: 'Tech Design Image',
+    }}
+    callToAction={{
+      target: '_blank',
+      text: 'Go to the project',
+      icon: 'tabler:chevron-right',
+      href: '#',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Project 1: <br/><span class="text-2xl">Brand identity for tech innovators</span>
+      </h3>
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+ -->
+
+  <!-- Content Widget - PORTFOLIO 2 **************** -->
+  <!-- COMMENT FOR NOW
+  <Content
+    isReversed
+    isAfterContent={true}
+    items={[
+      {
+        title: 'Description:',
+        description:
+          'Designed a captivating event poster for an art and music festival, "ArtWave Fusion," aiming to showcase the synergy between visual art and music genres.',
+      },
+      {
+        title: 'Role:',
+        description: `Translated the festival's creative theme into a visually striking poster. Used bold typography, vibrant colors, and abstract elements to depict the fusion of art and music. Ensured the design captured the festival's vibrant atmosphere.`,
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1619983081563-430f63602796?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
+      alt: 'Art and Music Poster Image',
+    }}
+    callToAction={{
+      target: '_blank',
+      text: 'Go to the project',
+      icon: 'tabler:chevron-right',
+      href: '#',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Project 2: <br/><span class="text-2xl">Event poster for art & music festival</span>
+      </h3>
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+-->
+  <!-- Content Widget- PORTFOLIO 3 **************** -->
+  <!-- COMMENT FOR NOW
+  <Content
+    isReversed
+    isAfterContent={true}
+    items={[
+      {
+        title: 'Description:',
+        description: `Redesigned the e-commerce website for an eco-conscious fashion brand, GreenVogue. The objective was to align the brand's online presence with its sustainable ethos and improve user experience.`,
+      },
+      {
+        title: 'Role:',
+        description: `Conducted a thorough analysis of the brand's values and customer base to inform the design direction. Created a visually appealing interface with intuitive navigation, highlighting sustainable materials, and integrating a user-friendly shopping experience.`,
+      },
+    ]}
+    image={{
+      src: 'https://plus.unsplash.com/premium_photo-1683288295841-782fa47e4770?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
+      alt: 'Fashion e-commerce Image',
+    }}
+    callToAction={{
+      target: '_blank',
+      text: 'Go to the project',
+      icon: 'tabler:chevron-right',
+      href: '#',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Project 3: <br/><span class="text-2xl">E-commerce website redesign for fashion brand</span>
+      </h3>
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+-->
+  <!-- Testimonials Widget *********** -->
+  <!-- 
+  <Testimonials
+    title="Client testimonials"
+    subtitle="Discover what clients have to say about their experiences working with me."
+    testimonials={[
+      {
+        testimonial: `She took our vague concept and turned it into a visual masterpiece that perfectly aligned with our goals. Her attention to detail and ability to translate ideas into compelling visuals exceeded our expectations.`,
+        name: 'Mark Thompson',
+        job: 'Creative director',
+        image: {
+          src: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
+          alt: 'Mark Thompson Image',
+        },
+      },
+      {
+        testimonial: `She transformed our brand identity with her creative finesse, capturing our essence in every element. Her dedication and talent truly shine through her work.`,
+        name: 'Emily Martinez',
+        job: 'CEO',
+        image: {
+          src: 'https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=772&q=80',
+          alt: 'Emily Martinez Image',
+        },
+      },
+      {
+        testimonial: `She has an uncanny ability to communicate emotions and stories. She crafted a logo for our NGO that not only represents our cause but also evokes empathy. Her professionalism and commitment make her a designer of exceptional caliber.`,
+        name: 'Laura Simmons',
+        job: 'Founder of an NGO',
+        image: {
+          src: 'https://images.unsplash.com/photo-1554727242-741c14fa561c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
+          alt: 'Laura Simmons Image',
+        },
+      },
+      {
+        testimonial: `We entrusted Sarah with revamping our website's user interface, and the results were astounding. Her intuitive design sense enhanced user experience, leading to a significant increase in engagement. She's a designer who truly understands the synergy of aesthetics and functionality.`,
+        name: 'Alex Foster',
+        job: 'Director of web services',
+        image: {
+          src: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
+          alt: 'Alex Foster Image',
+        },
+      },
+      {
+        testimonial: `She took our vision and elevated it beyond imagination. Her ability to capture brand essence and translate it into design is nothing short of remarkable. Working with her has been an inspiring journey.`,
+        name: 'Jessica Collins',
+        job: 'Product Manager',
+        image: {
+          src: 'https://images.unsplash.com/photo-1548142813-c348350df52b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=778&q=80',
+          alt: 'Jessica Collins Image',
+        },
+      },
+      {
+        testimonial: `Her ability to transform concepts into captivating visuals is nothing short of extraordinary. She took our event poster idea and turned it into a visual masterpiece that perfectly captured the essence of our festival. Sarah's dedication, creativity, and knack for delivering beyond expectations make her an invaluable asset to any project.`,
+        name: 'Michael Carter',
+        job: 'Event Coordinator',
+        image: {
+          src: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
+          alt: 'Michael Carter Image',
+        },
+      },
+    ]}
+  />
+-->
+
+  <!-- CallToAction Widget *********** -->
+  <!-- 
+  <CallToAction
+    title="Let's create together"
+    subtitle="Ready to transform your vision into captivating designs?"
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Hire me',
+        href: '/',
+      },
+    ]}
+  />
+-->
+  <!-- BlogLatestPost Widget **************** -->
+
+  <BlogLatestPosts
+    id="blog"
+    title="Discover My Latest Insights on My Blog"
+    information={`Get practical tips, effective practices and actionable insights for information security and technology.`}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </BlogLatestPosts>
+</Layout>
