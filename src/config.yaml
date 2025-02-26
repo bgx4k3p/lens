@@ -1,7 +1,7 @@
 site:
   name: CyberEdge
   site: 'https://bgx4k3p.github.io'
-  base: '/blog'
+  base: '/cyberedge'
   trailingSlash: false
 
   googleSiteVerificationId: 'ohgRd2HRHS4nUnLmLzuyjuQRiCGcNvPfBQxs11D0rV4'
