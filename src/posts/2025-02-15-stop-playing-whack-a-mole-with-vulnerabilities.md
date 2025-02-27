@@ -1,7 +1,7 @@
 ---
 publishDate: 2025-02-15
 title: 'Stop Playing Whack-a-Mole with Vulnerabilities'
-excerpt: 'The Key to Effective Security: A Strategic Approach to Vulnerability Management'
+excerpt: 'The Key to Effective Security: A Strategic Approach to Vulnerability Management' #Vulnerability Management #Risk #Strategy
 image: ~/assets/images/person-cybersickness.jpg
 category: Security
 tags: [Vulnerability Management, Risk, Strategy]

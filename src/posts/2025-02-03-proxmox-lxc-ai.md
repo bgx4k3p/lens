@@ -4,10 +4,10 @@ title: Unleash AI Superpowers with Proxmox LXC & GPU Passthrough in Docker
 excerpt: Discover how to set up a Proxmox LXC container with GPU support for optimized AI and Large Language Model (LLM) development, enhancing performance and efficiency on a budget in your local environment.
 image: ~/assets/images/pcinternals.png
 category: AI
-tags: [AI, Proxmox, Linux, Docker]
+tags: [AI, Proxmox, LXC, Linux, Docker]
 ---
 
-## Introduction
+## Maximizing AI Performance on a Budget
 
 In today's technology-driven era, developing and testing Artificial Intelligence (AI) models and Large Language Models (LLMs) locally has become a favorite pastime for developers and researchers alike. Imagine having your own personal playground where you can experiment with the latest in AI technology—like DeepSeek R1 or creating Retrieval-Augmented Generation (RAG)—all without breaking the bank! Setting up a Proxmox LXC container with GPU capabilities can supercharge your local environment, making it faster and more efficient. This guide will help you transform your hardware or old gaming rig into a supercharged setup!
 

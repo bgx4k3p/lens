@@ -1,26 +1,26 @@
 ---
 publishDate: 2023-10-27
 title: 'Launch Your Ansible Automation Hub: Install AWX on Ubuntu with MicroK8s'
-excerpt: 'Unlock Ansible automation with AWX!  This step-by-step guide shows you how to install AWX Tower on Ubuntu Server using MicroK8s and Helm for powerful, free automation.' #AWX #Ansible #Kubernetes #Automation #DevOps
+excerpt: 'Unlock Ansible automation with AWX!  This step-by-step guide shows you how to install AWX Tower on Ubuntu Server using MicroK8s and Helm for powerful, free automation.'
 image: ~/assets/images/awx-large.png
 category: Tutorial
 tags: [Linux, AWX, Ansible, Kubernetes, Helm, MicroK8s, Automation, DevOps, IaC]
 ---
 
-## Launch Your Automation Hub: Install AWX on Ubuntu with MicroK8s - The Ultimate Guide
+## Empower Your Automation with AWX
 
-Ready to take your Ansible automation to the next level? Enter AWX (the upstream project for Red Hat Ansible Automation Platform, formerly Ansible Tower) – the open-source powerhouse that transforms your Ansible playbooks into a centralized, manageable, and collaborative automation platform.
+Ready to take your Ansible automation to the next level? AWX, the upstream project for Red Hat Ansible Automation Platform (formerly Ansible Tower), offers a centralized and collaborative platform for managing your Ansible playbooks.
 
-AWX is the **mission control center for your Ansible playbooks**. Instead of managing individual playbooks scattered across your infrastructure, AWX provides a beautiful dashboard to organize, schedule, monitor, and control your automation workflows. And the best part? You can build your own AWX tower for **free**!
+AWX acts as a central control point for your Ansible workflows. Instead of managing scattered playbooks, AWX provides a dashboard to organize, schedule, monitor, and control your automation. Best part, you can deploy AWX for free.
 
-In this step-by-step tutorial, we'll guide you through installing AWX on Ubuntu Server using a lightweight Kubernetes cluster powered by MicroK8s and the Helm package manager. Get ready to unlock the full potential of Ansible automation!
+In this tutorial, I'll walk you through installing AWX on Ubuntu Server using MicroK8s and Helm. This will enable you to leverage the capabilities of Ansible automation.
 
 ## 1. Pre-Flight Checklist: System Prerequisites
 
 Before we launch into AWX installation, ensure your Ubuntu Server meets these essential prerequisites:
 
 - **Ubuntu Server with MicroK8s Cluster:** You'll need a running Ubuntu Server with MicroK8s already configured.
-- **Resource Requirements: 6GB+ RAM & 4+ CPUs:** AWX is a robust platform and requires adequate resources to run smoothly. **Seriously, don't skimp on the resources!** Insufficient RAM or CPU will lead to installation failures and a frustrating experience. 
+- **Resource Requirements: 6GB+ RAM & 4+ CPUs:** AWX is a robust platform and requires adequate resources to run smoothly. **Seriously, don't skimp on the resources!** Insufficient RAM or CPU will lead to installation failures and a frustrating experience.
 
 ## 2. Enable Required AddOns
 
@@ -118,7 +118,7 @@ ansible@kube:~$ microk8s kubectl port-forward -n awx service/awx-service 31589:8
 
 ```
 
-## 6. Login AWX
+## 6. Login to AWX
 
 ```bash
 # Get the Admin password

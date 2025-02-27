@@ -1,16 +1,17 @@
 # build output
 dist/
 .output/
+.astro
 
 # dependencies
 node_modules/
+pnpm-lock.yaml
 
 # logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-
 
 # environment variables
 .env
@@ -19,6 +20,5 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
-pnpm-lock.yaml
-
-.astro
+# Draft posts
+src/posts/_*

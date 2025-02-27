@@ -4,10 +4,10 @@ title: 'Free Up Disk Space Safely: How to Uninstall Old Kernels on Ubuntu - A St
 excerpt: 'Ubuntu running out of space?  Reclaim valuable disk space by safely removing old, unused kernels. This step-by-step guide ensures a clean and risk-free kernel cleanup.'
 image: ~/assets/images/code-large.jpg
 category: Tutorial
-tags: [Linux, Bash, Shell, Productivity, Terminal, Efficiency, Tips]
+tags: [Linux, Bash, Shell, Productivity, Terminal, Tips]
 ---
 
-## Free Up Disk Space Safely: How to Uninstall Old Kernels on Ubuntu - A Step-by-Step Guide
+## Reclaiming Your Disk: The Kernel Cleanup
 
 Over time, Ubuntu systems accumulate older Linux kernels, each taking up valuable disk space. If you're facing disk space constraints, or simply want to keep your system lean and tidy, removing these old kernels is a smart move. This guide will walk you through a **safe and step-by-step process** to uninstall old kernels on Ubuntu selectively, ensuring you keep your system running smoothly and avoid any boot issues.
 
