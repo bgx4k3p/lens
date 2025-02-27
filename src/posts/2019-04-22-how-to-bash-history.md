@@ -15,9 +15,9 @@ Is your Bash history feeling more like a chaotic junk drawer than a helpful comm
 
 If you are like me and use tab auto-complete to save time while typing in a terminal, a clean and deduplicated shell history isn't just about aesthetics – it's a real boost to your command-line productivity:
 
-* **Efficient Command Retrieval:** Reduces time spent searching for commands by providing instant access to unique, frequently used entries.
-* **Marginal Performance Enhancement:** Decreases history file size, potentially leading to slight improvements in shell startup and history loading speeds.
-* **Streamlined Script Creation:** Facilitates the use of clean, non-redundant command examples when copying from history into scripts.
+- **Efficient Command Retrieval:** Reduces time spent searching for commands by providing instant access to unique, frequently used entries.
+- **Marginal Performance Enhancement:** Decreases history file size, potentially leading to slight improvements in shell startup and history loading speeds.
+- **Streamlined Script Creation:** Facilitates the use of clean, non-redundant command examples when copying from history into scripts.
 
 ## Bash History Deduplication: The Script for a Streamlined Terminal
 

@@ -12,7 +12,7 @@ import compress from 'astro-compress';
 import type { AstroIntegration } from 'astro';
 import astrowind from './vendor/integration';
 
-import rehypePrettyCode from "rehype-pretty-code";  // Added
+import rehypePrettyCode from 'rehype-pretty-code'; // Added
 //import remarkCodeBlock from './src/plugins/remark-code-block.mjs'; // Added
 
 import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin, lazyImagesRehypePlugin } from './src/utils/frontmatter';
@@ -79,7 +79,7 @@ export default defineConfig({
 
   markdown: {
     shikiConfig: {
-      theme: 'one-dark-pro' // one-dark-pro, min-dark, dark-plus, vitesse-light, vitesse-dark, slack-dark, nord, github-dark
+      theme: 'one-dark-pro', // one-dark-pro, min-dark, dark-plus, vitesse-light, vitesse-dark, slack-dark, nord, github-dark
     },
     //remarkPlugins: [remarkCodeBlock, readingTimeRemarkPlugin],
     remarkPlugins: [readingTimeRemarkPlugin],
