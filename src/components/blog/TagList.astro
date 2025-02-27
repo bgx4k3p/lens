@@ -1,0 +1,28 @@
+---
+export const prerender = true;
+import { getCollection } from 'astro:content';
+import { getPermalink } from '~/utils/permalinks';
+
+// 1. Extract all tags and convert to lowercase
+const allPosts = await getCollection('post');
+const allTags = allPosts.flatMap((post) => {
+  const tags = post.data.tags || [];
+  return tags.map((tag: string) => tag.toLowerCase());
+});
+
+// 2. Sort Alfabetical
+const tags = Array.from(allTags).sort();
+---
+
+<div class="flex flex-wrap gap-2">
+  {
+    tags.map((tag) => (
+      <a
+        href={getPermalink(`/tag/${tag}`)}
+        class="inline-flex items-center rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+      >
+        {tag}
+      </a>
+    ))
+  }
+</div>

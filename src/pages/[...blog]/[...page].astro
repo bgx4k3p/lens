@@ -1,6 +1,6 @@
 ---
+// Imports
 import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
-
 import Layout from '~/layouts/PageLayout.astro';
 import BlogList from '~/components/blog/List.astro';
 import Headline from '~/components/blog/Headline.astro';
@@ -9,6 +9,7 @@ import Pagination from '~/components/blog/Pagination.astro';
 import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
 import { getPermalink } from '~/utils/permalinks';
 
+// Exports
 export const prerender = true;
 
 export const getStaticPaths = (async ({ paginate }) => {
@@ -30,7 +31,7 @@ const metadata = {
     follow: blogListRobots?.follow,
   },
   openGraph: {
-    type: 'blog',
+    type: 'website',
   },
 };
 
@@ -43,7 +44,7 @@ subtitle = subtitle.replace(
 
 <Layout metadata={metadata}>
   <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
-    <Headline subtitle={subtitle}>CyberEdge Blog</Headline>
+    <Headline subtitle={subtitle}>The bgx Lens</Headline>
     <BlogList posts={page.data} />
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
     <!--

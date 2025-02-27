@@ -1,7 +1,7 @@
 site:
-  name: CyberEdge
+  name: 'The bgx Lens'
   site: 'https://bgx4k3p.github.io'
-  base: '/cyberedge'
+  base: '/lens'
   trailingSlash: false
 
   googleSiteVerificationId: 'ohgRd2HRHS4nUnLmLzuyjuQRiCGcNvPfBQxs11D0rV4'
@@ -10,19 +10,19 @@ site:
 metadata:
   title:
     default: bgx4k3p
-    template: 'CyberEdge - bgx4k3p'
+    template: 'The bgx Lens'
   description: 'Solving complex InfoSec & Tech challenges with practical advice and strategic expertise. Explore CyberEdge Blog by bgx4k3p for actionable insights.'
   robots:
     index: true
     follow: true
   openGraph:
-    title: CyberEdge
-    site_name: CyberEdge
+    title: 'The bgx Lens'
+    site_name: 'The bgx Lens'
+    type: website
     images:
       - url: '~/assets/images/default.png'
         width: 1200
         height: 628
-    type: website
   twitter:
     handle: '@bgx4k3p'
     site: '@bgx4k3p'
