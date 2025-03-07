@@ -59,14 +59,14 @@ Before creating LXC container, make sure to have the proprietary NVIDIA drivers 
 
    ```bash
    cd /tmp
-   wget http://international.download.nvidia.com/XFree86/Linux-x86_64/565.77/NVIDIA-Linux-x86_64-565.77.run
+   wget http://international.download.nvidia.com/XFree86/Linux-x86_64/570.124.04/NVIDIA-Linux-x86_64-570.124.04.run
    ```
 
 3. **Install NVIDIA drivers and Reboot**
 
    ```bash
-   chmod +x NVIDIA-Linux-x86_64-565.77.run
-   ./NVIDIA-Linux-x86_64-565.77.run --no-questions --ui=none --disable-nouveau
+   chmod +x NVIDIA-Linux-x86_64-570.124.04.run
+   ./NVIDIA-Linux-x86_64-570.124.04.run --no-questions --ui=none --disable-nouveau
    ```
 
 4. **Check everything is working**
@@ -161,7 +161,7 @@ This step is very similar to installing the drivers on the host, but the command
 
    ```bash
    cd /tmp
-   wget http://international.download.nvidia.com/XFree86/Linux-x86_64/565.77/NVIDIA-Linux-x86_64-565.77.run
+   wget http://international.download.nvidia.com/XFree86/Linux-x86_64/570.124.04/NVIDIA-Linux-x86_64-570.124.04.run
    ```
 
 2. **Install drivers and restart the LXC**
@@ -169,8 +169,8 @@ This step is very similar to installing the drivers on the host, but the command
    - **Note** we are skipping the kernel modules this time
 
    ```bash
-   chmod +x NVIDIA-Linux-x86_64-565.77.run
-   ./NVIDIA-Linux-x86_64-565.77.run --no-questions --ui=none --no-kernel-modules
+   chmod +x NVIDIA-Linux-x86_64-570.124.04.run
+   ./NVIDIA-Linux-x86_64-570.124.04.run --no-questions --ui=none --no-kernel-modules
    reboot
    ```
 
