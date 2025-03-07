@@ -30,7 +30,7 @@ export const headerData = {
     },
     {
       text: 'About me',
-      href: getPermalink('/personal'),
+      href: getPermalink('/bio'),
     },
   ],
   //actions: [{ text: 'Download', href: 'https://github.com/onwidget/astrowind', target: '_blank' }],
