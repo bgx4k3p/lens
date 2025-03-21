@@ -1,13 +1,15 @@
 ---
 publishDate: 2025-03-20
 title: 'Leveraging EPSS in Practice: A Strategic Framework for Vulnerability Prioritization'
-excerpt: 'Transform Your Security Operations with Data-Driven Risk Assessment'
+excerpt: 'Strategic Data Driven Risk Reduction'
 image: ~/assets/images/gemini_generated_epss.png
 category: Security
 tags: [Vulnerability Management, EPSS, Risk, Strategy]
 ---
 
-## Transform Your Security Operations with Data-Driven Risk Assessment
+import EPSSComparisonChart from '~/assets/js/EPSSComparisonChart';
+
+## Transform Your Security Posture with EPSS-Powered Vulnerability Prioritization
 
 In today's rapidly evolving threat landscape, vulnerability management has become increasingly complex. With hundreds of new CVEs published each month, security teams need effective methods to separate signal from noise. Exploit Prediction Scoring System (EPSS) provides a powerful, evidence-based approach to vulnerability prioritization—but how can we translate these probability scores into actionable security protocols? This article explores a practical implementation framework that turns EPSS insights into concrete operational guidance.
 
@@ -33,12 +35,7 @@ This framework provides security teams with defensible, data-driven remediation 
 
 The recent transition from EPSS v3 to v4 represents a significant evolution in vulnerability risk scoring. A comparative analysis of CVE distributions across risk categories reveals important insights about how vulnerabilities in the National Vulnerability Database (NVD) are classified under each version. The following table shows the count of CVEs from NVD as of March 2025 for each risk category:
 
-| Exploit Risk | EPSS 3 | EPSS 4 | Change | % Change |
-|--------------|--------|--------|--------|----------|
-| IMMINENT (≥80%) | 3916 | 2578 | -1338 | -34.17% |
-| ELEVATED (≥50%) | 2526 | 4206 | +1680 | +66.51% |
-| NOTABLE (≥30%) | 1899 | 3870 | +1971 | +103.79% |
-| NEGLIGIBLE (>0%) | 261944 | 259671 | -2273 | -0.87% |
+<EPSSComparisonChart client:load />
 
 This redistribution doesn't indicate a reduction in critical vulnerabilities—rather, it reflects more precise risk calibration. The decrease in IMMINENT-rated vulnerabilities paired with increases in ELEVATED and NOTABLE categories suggests EPSSv4 is less prone to overestimating exploitation likelihood, reducing false positives that can drain valuable security resources.
 
