@@ -33,12 +33,12 @@ This framework provides security teams with defensible, data-driven remediation 
 
 The recent transition from EPSS v3 to v4 represents a significant evolution in vulnerability risk scoring. A comparative analysis of CVE distributions across risk categories reveals important insights about how vulnerabilities in the National Vulnerability Database (NVD) are classified under each version. The following table shows the count of CVEs from NVD as of March 2025 for each risk category:
 
-| Exploit Risk     | EPSSv3  | EPSSv4  | Change |
-| ---------------- | ------- | ------- | ------ |
-| IMMINENT (≥80%)  | 4,692   | 3,219   | -1,473 |
-| ELEVATED (≥50%)  | 2,453   | 4,032   | +1,579 |
-| NOTABLE (≥30%)   | 1,847   | 3,769   | +1,922 |
-| NEGLIGIBLE (>0%) | 261,293 | 259,305 | -1,988 |
+| Exploit Risk | EPSS 3 | EPSS 4 | Change | % Change |
+|--------------|--------|--------|--------|----------|
+| IMMINENT (≥80%) | 3916 | 2578 | -1338 | -34.17% |
+| ELEVATED (≥50%) | 2526 | 4206 | +1680 | +66.51% |
+| NOTABLE (≥30%) | 1899 | 3870 | +1971 | +103.79% |
+| NEGLIGIBLE (>0%) | 261944 | 259671 | -2273 | -0.87% |
 
 This redistribution doesn't indicate a reduction in critical vulnerabilities—rather, it reflects more precise risk calibration. The decrease in IMMINENT-rated vulnerabilities paired with increases in ELEVATED and NOTABLE categories suggests EPSSv4 is less prone to overestimating exploitation likelihood, reducing false positives that can drain valuable security resources.
 
