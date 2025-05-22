@@ -1,6 +1,5 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
-
 import { defineConfig } from 'astro/config';
 
 import sitemap from '@astrojs/sitemap';
@@ -11,6 +10,8 @@ import icon from 'astro-icon';
 import compress from 'astro-compress';
 import type { AstroIntegration } from 'astro';
 import astrowind from './vendor/integration';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import remarkCustomHeadingId from 'remark-custom-heading-id';
 
 import rehypePrettyCode from 'rehype-pretty-code'; // Added
 //import remarkCodeBlock from './src/plugins/remark-code-block.mjs'; // Added
@@ -82,8 +83,21 @@ export default defineConfig({
       theme: 'one-dark-pro', // one-dark-pro, min-dark, dark-plus, vitesse-light, vitesse-dark, slack-dark, nord, github-dark
     },
     //remarkPlugins: [remarkCodeBlock, readingTimeRemarkPlugin],
-    remarkPlugins: [readingTimeRemarkPlugin],
-    rehypePlugins: [rehypePrettyCode, responsiveTablesRehypePlugin, lazyImagesRehypePlugin],
+    remarkPlugins: [readingTimeRemarkPlugin, remarkCustomHeadingId],
+    rehypePlugins: [
+      rehypePrettyCode,
+      responsiveTablesRehypePlugin,
+      lazyImagesRehypePlugin,
+      [
+        rehypeAutolinkHeadings,
+        {
+          behavior: 'wrap',
+          properties: {
+            className: ['anchor-link'],
+          },
+        },
+      ],
+    ],
   },
 
   vite: {
