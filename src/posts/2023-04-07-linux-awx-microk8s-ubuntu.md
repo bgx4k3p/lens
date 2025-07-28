@@ -3,8 +3,8 @@ publishDate: 2023-10-27
 title: 'Launch Your Ansible Automation Hub: Install AWX on Ubuntu with MicroK8s'
 excerpt: 'Unlock Ansible automation with AWX!  This step-by-step guide shows you how to install AWX Tower on Ubuntu Server using MicroK8s and Helm for powerful, free automation.'
 image: ~/assets/images/awx-large.png
-category: Tutorial
-tags: [Linux, AWX, Ansible, Kubernetes, Helm, MicroK8s, Automation, DevOps, IaC]
+category: Automation
+tags: [Linux, AWX, Ansible, Kubernetes, Helm, MicroK8s, Automation, DevOps, IaC, Automation]
 ---
 
 ## Empower Your Automation with AWX

@@ -19,6 +19,10 @@ export const headerData = {
           href: getPermalink('ai', 'category'),
         },
         {
+          text: 'Automation',
+          href: getPermalink('automation', 'category'),
+        },
+        {
           text: 'Tutorial',
           href: getPermalink('tutorial', 'category'),
         },

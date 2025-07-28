@@ -4,7 +4,7 @@ title: 'Declutter Your Command Line: Master Bash History Deduplication'
 excerpt: 'Tired of Bash history clutter? This tutorial shows you how to deduplicate your command history with a simple script, boosting your terminal efficiency.'
 image: ~/assets/images/code-large.jpg
 category: Tutorial
-tags: [Linux, Bash, Shell, Productivity, Terminal, Tips]
+tags: [Linux, Bash, Shell, Productivity, Terminal, Tips, Automation]
 ---
 
 ## Reclaim Your Terminal: The History Cleanup
