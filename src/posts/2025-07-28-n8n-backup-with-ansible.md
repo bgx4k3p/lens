@@ -1,6 +1,6 @@
 ---
 publishDate: 2025-07-28
-title: 'Automate N8n Backups with Ansible: A Layered Protection Approach'
+title: 'Automate N8n Backups with Ansible: A Layered Protection Strategy'
 excerpt: 'When N8N workflows corrupt during updates, internal backup workflows fail too. This Ansible playbook provides external backup protection to secure your Workflows and Credentials, supporting both Docker and NPM installations with automated retention.'
 image: ~/assets/images/n8n-backup.jpg
 category: Automation
