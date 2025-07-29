@@ -5,6 +5,7 @@ excerpt: Discover how to set up a Proxmox LXC container with GPU support for opt
 image: ~/assets/images/pcinternals.png
 category: AI
 tags: [AI, Proxmox, LXC, Linux, Docker, Automation]
+featured: true
 ---
 
 ## Maximizing AI Performance on a Budget

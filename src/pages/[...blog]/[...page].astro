@@ -1,10 +1,11 @@
 ---
-// Imports
+// src/pages/[...blog]/[...page].astro
 import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
 import Layout from '~/layouts/PageLayout.astro';
 import BlogList from '~/components/blog/List.astro';
 import Headline from '~/components/blog/Headline.astro';
 import Pagination from '~/components/blog/Pagination.astro';
+import FeaturedBlogPosts from '~/components/widgets/FeaturedBlogPosts.astro';
 // import PostTags from "~/components/blog/Tags.astro";
 import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
 import { getPermalink } from '~/utils/permalinks';
@@ -43,13 +44,107 @@ subtitle = subtitle.replace(
 ---
 
 <Layout metadata={metadata}>
-  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
-    <Headline subtitle={subtitle}>The bgx Lens</Headline>
-    <BlogList posts={page.data} />
-    <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
-    <!--
-      <PostTags tags={allCategories} class="mb-2" title="Search by Categories:" isCategory />
-      <PostTags tags={allTags}  title="Search by Tags:" />
-    -->
+  <!-- Main container with wider max-width for sidebar -->
+  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-7xl">
+    <!-- Header -->
+    <div class="max-w-4xl mx-auto mb-12">
+      <Headline subtitle={subtitle}>The bgx Lens</Headline>
+    </div>
+
+    <!-- Main content with sidebar layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
+      <!-- Main blog content (3/4 width) -->
+      <div class="lg:col-span-3">
+        <BlogList posts={page.data} />
+        <div class="mt-12">
+          <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
+        </div>
+        <!--
+          <PostTags tags={allCategories} class="mb-2" title="Search by Categories:" isCategory />
+          <PostTags tags={allTags}  title="Search by Tags:" />
+        -->
+      </div>
+
+      <!-- Sidebar (1/4 width) -->
+      <div class="lg:col-span-1">
+        <div class="sticky top-8 space-y-8">
+          <!-- Featured Blog Posts -->
+          <FeaturedBlogPosts
+            title="Featured Posts"
+            count={5}
+            showImage={true}
+            showExcerpt={false}
+            showDate={true}
+            showAuthor={false}
+            classes={{
+              container: 'h-fit',
+            }}
+          />
+
+          <!-- Categories -->
+          <div class="bg-transparent dark:bg-transparent rounded-none shadow-none border-none p-6 w-80">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Categories</h3>
+            <div class="space-y-3">
+              <a
+                href={getPermalink('security', 'category')}
+                class="inline-flex items-center w-full px-2 py-1 rounded-full
+                       bg-primary/10 dark:bg-blue-500/10 hover:bg-primary/20 dark:hover:bg-blue-500/20
+                       transition-colors duration-200"
+              >
+                <div class="flex items-center">
+                  <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                  <span class="text-xs font-medium text-primary dark:text-blue-400">Security</span>
+                </div>
+              </a>
+              <a
+                href={getPermalink('ai', 'category')}
+                class="inline-flex items-center w-full px-2 py-1 rounded-full
+                       bg-primary/10 dark:bg-green-500/10 hover:bg-primary/20 dark:hover:bg-green-500/20
+                       transition-colors duration-200"
+              >
+                <div class="flex items-center">
+                  <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
+                  <span class="text-xs font-medium text-primary dark:text-green-400">AI</span>
+                </div>
+              </a>
+              <a
+                href={getPermalink('automation', 'category')}
+                class="inline-flex items-center w-full px-2 py-1 rounded-full
+                       bg-primary/10 dark:bg-purple-500/10 hover:bg-primary/20 dark:hover:bg-purple-500/20
+                       transition-colors duration-200"
+              >
+                <div class="flex items-center">
+                  <span class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>
+                  <span class="text-xs font-medium text-primary dark:text-purple-400">Automation</span>
+                </div>
+              </a>
+              <a
+                href={getPermalink('tutorial', 'category')}
+                class="inline-flex items-center w-full px-2 py-1 rounded-full
+                       bg-primary/10 dark:bg-orange-500/10 hover:bg-primary/20 dark:hover:bg-orange-500/20
+                       transition-colors duration-200"
+              >
+                <div class="flex items-center">
+                  <span class="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>
+                  <span class="text-xs font-medium text-primary dark:text-orange-400">Tutorial</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-gray-100 dark:border-slate-800">
+              <a
+                href={getPermalink('tags')}
+                class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-blue-400 transition-colors duration-200"
+              >
+                View all tags
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </Layout>

@@ -42,6 +42,9 @@ export interface Post {
 
   /**  */
   readingTime?: number;
+
+  /**  */
+  featured?: boolean;
 }
 
 export interface Taxonomy {
