@@ -67,7 +67,7 @@ apps:
 analytics:
   vendors:
     googleAnalytics:
-      id: 'G-YX981GZLG7' # 'G-HP7XX1PBQ9'
+      id: 'G-X1GDCLQGXH' # 'G-HP7XX1PBQ9'
 
 ui:
   theme: 'dark' # Values: 'system" | 'light' | 'dark' | 'light:only' | 'dark:only'
