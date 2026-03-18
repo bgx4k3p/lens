@@ -45,9 +45,14 @@
     async function open() {
       overlay!.hidden = false;
       if (!initialized) {
-        const { PagefindUI } = await import('/lens/pagefind/pagefind-ui.js');
-        new PagefindUI({ element: container, showSubResults: true });
-        initialized = true;
+        try {
+          // pagefind-ui.js is generated post-build — unavailable in dev mode
+          const pagefind = await import(/* @vite-ignore */ '/lens/pagefind/pagefind-ui.js');
+          new pagefind.PagefindUI({ element: container, showSubResults: true });
+          initialized = true;
+        } catch {
+          container!.innerHTML = '<p style="color:var(--color-text-faint);font-size:0.875rem;">Search is available after building (npm run build).</p>';
+        }
       }
       setTimeout(() => {
         const input = container!.querySelector<HTMLInputElement>('input');
