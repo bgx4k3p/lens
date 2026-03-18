@@ -1,9 +1,9 @@
 ---
 // src/components/shared/SearchButton.astro
-// Pagefind search trigger button
+// Pagefind search trigger — uses is:inline to bypass Vite module resolution
 ---
 
-<button id="search-btn" class="icon-btn" aria-label="Search" type="button">
+<button id="search-btn" class="icon-btn" aria-label="Search (⌘K)" type="button">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
   </svg>
@@ -27,56 +27,69 @@
   .search-container {
     width: 100%;
     max-width: 40rem;
+    margin: 0 1rem;
     padding: 1.5rem;
     max-height: 80vh;
     overflow-y: auto;
   }
 </style>
 
-<script>
-  async function initSearch() {
-    const btn = document.getElementById('search-btn');
-    const overlay = document.getElementById('search-overlay');
-    const container = document.getElementById('search-container');
-    if (!btn || !overlay || !container) return;
+<script is:inline>
+  (function () {
+    var searchInitialized = false;
 
-    let initialized = false;
+    function initSearch() {
+      var btn = document.getElementById('search-btn');
+      var overlay = document.getElementById('search-overlay');
+      var container = document.getElementById('search-container');
+      if (!btn || !overlay || !container) return;
 
-    async function open() {
-      overlay!.hidden = false;
-      if (!initialized) {
-        try {
-          // pagefind-ui.js is generated post-build — unavailable in dev mode
-          const pagefind = await import(/* @vite-ignore */ '/lens/pagefind/pagefind-ui.js');
-          new pagefind.PagefindUI({ element: container, showSubResults: true });
-          initialized = true;
-        } catch {
-          container!.innerHTML = '<p style="color:var(--color-text-faint);font-size:0.875rem;">Search is available after building (npm run build).</p>';
+      function open() {
+        overlay.hidden = false;
+        if (!searchInitialized) {
+          var script = document.createElement('script');
+          script.src = '/lens/pagefind/pagefind-ui.js';
+          script.onload = function () {
+            if (window.PagefindUI) {
+              new window.PagefindUI({ element: container, showSubResults: true });
+              searchInitialized = true;
+              var input = container.querySelector('input');
+              if (input) input.focus();
+            }
+          };
+          script.onerror = function () {
+            container.innerHTML = '<p class="search-fallback">Search available after build (npm run build).</p>';
+          };
+          document.head.appendChild(script);
+        } else {
+          setTimeout(function () {
+            var input = container.querySelector('input');
+            if (input) input.focus();
+          }, 50);
         }
       }
-      setTimeout(() => {
-        const input = container!.querySelector<HTMLInputElement>('input');
-        input?.focus();
-      }, 100);
-    }
 
-    function close() {
-      overlay!.hidden = true;
-    }
-
-    btn.addEventListener('click', open);
-    overlay!.addEventListener('click', (e) => {
-      if (e.target === overlay) close();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !overlay!.hidden) close();
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        overlay!.hidden ? open() : close();
+      function close() {
+        overlay.hidden = true;
       }
-    });
-  }
 
-  initSearch();
-  document.addEventListener('astro:after-swap', initSearch);
+      btn.addEventListener('click', open);
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) close();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !overlay.hidden) close();
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+          e.preventDefault();
+          overlay.hidden ? open() : close();
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSearch);
+    } else {
+      initSearch();
+    }
+  })();
 </script>

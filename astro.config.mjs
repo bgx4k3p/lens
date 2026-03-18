@@ -27,11 +27,6 @@ export default defineConfig({
         '~': new URL('./src', import.meta.url).pathname,
       },
     },
-    build: {
-      rollupOptions: {
-        external: ['/lens/pagefind/pagefind-ui.js'],
-      },
-    },
   },
 
   markdown: {
