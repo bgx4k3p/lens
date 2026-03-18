@@ -1,559 +1,366 @@
 ---
-// Imports
-import Layout from '~/layouts/PageLayout.astro';
-import Header from '~/components/widgets/Header.astro';
-import Hero from '~/components/widgets/Hero.astro';
-import Content from '~/components/widgets/Content.astro';
-//import CallToAction from '~/components/widgets/CallToAction.astro';
-import Features3 from '~/components/widgets/Features3.astro';
-//import Testimonials from '~/components/widgets/Testimonials.astro';
-import Steps from '~/components/widgets/Steps.astro';
-import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
-import { getPermalink } from '~/utils/permalinks';
-
-// Exports
 export const prerender = true;
 
-const metadata = {
-  title: 'Emil Chukalov',
-};
+import PageLayout from '~/layouts/PageLayout.astro';
+import PostCard from '~/components/blog/PostCard.astro';
+import { findLatestPosts } from '~/lib/blog';
+import { SITE, SOCIAL_LINKS } from '~/lib/constants';
+
+const latestPosts = await findLatestPosts(4);
+
+const experience = [
+  {
+    title: 'VP Director, Info Sec Engineering',
+    company: 'Fifth Third Bank',
+    location: 'Cincinnati OH (Remote)',
+    dates: '5/2022 – 12/2024',
+    description: 'Led enterprise security engineering initiatives, driving strategic transformation of information security programs through AI-powered automation and modern security architecture.',
+  },
+  {
+    title: 'Director, Info Sec',
+    company: 'Freddie Mac',
+    location: 'McLean VA',
+    dates: '9/2017 – 5/2022',
+    description: 'Directed information security operations and strategy, managing cross-functional teams to protect critical financial infrastructure and ensure regulatory compliance.',
+  },
+  {
+    title: 'Info Sec Consultant',
+    company: 'Axxum Technologies',
+    location: 'Herndon VA',
+    dates: '02/2016 – 09/2017',
+    description: 'Provided expert security consulting services, conducting assessments and implementing security solutions for government and enterprise clients.',
+  },
+  {
+    title: 'Penetration Tester, Red Team',
+    company: 'Booz Allen Hamilton',
+    location: 'McLean VA',
+    dates: '08/2015 – 02/2016',
+    description: 'Performed advanced adversary simulations and penetration testing engagements to identify vulnerabilities across enterprise environments.',
+  },
+  {
+    title: 'Lead, Vulnerability Management',
+    company: 'Booz Allen Hamilton',
+    location: 'McLean VA',
+    dates: '09/2013 – 08/2015',
+    description: 'Led vulnerability management programs, coordinating scanning, analysis, and remediation efforts across large-scale environments.',
+  },
+  {
+    title: 'Tech Lead, Systems Engineer',
+    company: 'CompuCom',
+    location: 'Herndon VA',
+    dates: '04/2007 – 09/2013',
+    description: 'Led systems engineering teams delivering enterprise IT infrastructure solutions, managing complex deployments and technical operations.',
+  },
+  {
+    title: 'IT Consultant',
+    company: 'Self-Employed',
+    location: 'Bulgaria',
+    dates: 'Early Career',
+    description: 'Provided IT consulting and technical support services, building a foundation of hands-on experience across diverse technology environments.',
+  },
+];
+
+const education = [
+  {
+    degree: 'MS Computer Forensics',
+    school: 'George Mason University',
+    years: '2016 – 2018',
+    honors: 'Summa Cum Laude',
+  },
+  {
+    degree: 'BS Information Security',
+    school: 'George Mason University',
+    years: '2012 – 2015',
+    honors: 'Summa Cum Laude',
+  },
+];
+
+const certifications = [
+  'CISSP', 'GSLC', 'GCSA', 'GCPN', 'GXPN', 'OSCP',
+  'CEH', 'Security+', 'Secure Infrastructure Specialist',
+  'IT Operations Specialist', 'A+', 'NET+', 'MCP', 'MCTS', 'CCNA',
+];
 ---
 
-<Layout metadata={metadata}>
-  <Fragment slot="header">
-    <Header
-      links={[
-        { text: 'Home', href: getPermalink('/') },
-        { text: 'About', href: '#about' },
-        { text: 'Resume', href: '#resume' },
-        //{ text: 'Portfolio', href: '#portfolio' },
-        { text: 'Blog', href: '#blog' },
-        { text: 'GitHub', icon: 'tabler:brand-github', href: 'https://github.com/bgx4k3p' },
-      ]}
-      actions={[
-        //{text: 'Hire me', href: '#'},
-      ]}
-      isSticky
-      showToggleTheme
-      showRssFeed
-    />
-  </Fragment>
+<PageLayout title={`About | ${SITE.name}`} description="Emil Chukalov — Transformative Security Leader, Strategic Visionary, and AI-Powered Automation Advocate.">
 
-  <!-- Hero2 Widget ******************* -->
+  <!-- Hero -->
+  <section class="section section-page-top">
+    <div class="container">
+      <div class="bio-hero reveal">
+        <h1 class="bio-name"><span class="gradient-text">Emil Chukalov</span></h1>
+        <p class="bio-title">Transformative Security Leader | Strategic Visionary | AI-Powered Automation Advocate</p>
+      </div>
+    </div>
+  </section>
 
-  <Hero
-    id="hero"
-    title="Emil Chukalov"
-    tagline="Personal Web"
-    actions={[
-      //{ variant: 'primary', text: 'Hire me', href: getPermalink('/contact#form') }
-    ]}
-  >
-    <Fragment slot="subtitle">
-      🛡️ Transformative Security Leader | Strategic Visionary | AI-Powered Automation Advocate
-    </Fragment>
-  </Hero>
+  <!-- About -->
+  <section class="section">
+    <div class="container">
+      <div class="bio-about reveal">
+        <h2 class="bio-section-heading">About Me</h2>
+        <div class="bio-about-content">
+          <p>
+            I am a transformative security leader with over 17 years of experience in information security,
+            IT operations, and strategic technology leadership. My career spans government agencies, financial
+            institutions, and consulting firms, where I have consistently delivered innovative security programs
+            that balance risk management with business enablement.
+          </p>
+          <p>
+            I am passionate about leveraging AI and automation to solve complex security challenges at scale.
+            My approach combines deep technical expertise with strategic vision, enabling organizations to build
+            resilient security postures while embracing digital transformation.
+          </p>
+        </div>
+        <div class="bio-social">
+          <a href={SOCIAL_LINKS.linkedin} class="btn-ghost" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href={SOCIAL_LINKS.github} class="btn-ghost" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href={`mailto:${SOCIAL_LINKS.email}`} class="btn-ghost">Mail</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- Content Widget **************** -->
+  <!-- Work Experience -->
+  <section class="section">
+    <div class="container">
+      <h2 class="bio-section-heading reveal">Work Experience</h2>
+      <div class="timeline">
+        {experience.map((job, i) => (
+          <div class={`timeline-item reveal reveal-delay-${Math.min(i + 1, 5)}`}>
+            <div class="timeline-marker"></div>
+            <div class="glass-card timeline-card">
+              <h3 class="timeline-title">{job.title}</h3>
+              <p class="timeline-company">{job.company} — {job.location}</p>
+              <p class="timeline-dates">{job.dates}</p>
+              <p class="timeline-description">{job.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
-  <Content
-    id="about"
-    columns={3}
-    items={[
-      {
-        icon: 'tabler:brand-linkedin',
-        callToAction: {
-          target: '_blank',
-          text: 'LinkedIn',
-          href: 'https://www.linkedin.com/in/chukalov/',
-        },
-      },
-      {
-        icon: 'tabler:brand-github',
-        callToAction: {
-          target: '_blank',
-          text: 'GitHub',
-          href: 'https://github.com/bgx4k3p',
-        },
-      },
-      {
-        icon: 'tabler:mail',
-        callToAction: {
-          target: '_blank',
-          text: 'Mail',
-          href: 'mailto:bgx4k3p@gmail.com',
-        },
-      },
-    ]}
-    image={{
-      src: '~/assets/images/emil.png',
-      alt: 'Colorful Image',
-      loading: 'eager',
-      style: {
-        width: '100px', // Example: Even smaller width
-        height: 'auto',
-      },
-    }}
-  >
-    <Fragment slot="content">
-      <h2 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">About me</h2>
-      <p>
-        For over 18 years I've been deciphering complexities in the Enterprise Security trenches, from fortifying
-        defenses to designing proactive measures against threats.
-      </p>
-      <br />
-      <p>
-        My journey is driven by a passion for leading transformative security initiatives through strategic vision and
-        intelligent automation, ensuring robust protection while empowering agile business operations.
-      </p>
-      <br />
-      <p>If you're curious to dive deeper into my work, you can follow me:</p>
-    </Fragment>
+  <!-- Education -->
+  <section class="section">
+    <div class="container">
+      <h2 class="bio-section-heading reveal">Education</h2>
+      <div class="education-grid">
+        {education.map((edu, i) => (
+          <div class={`glass-card education-card reveal reveal-delay-${i + 1}`}>
+            <h3 class="education-degree">{edu.degree}</h3>
+            <p class="education-school">{edu.school}</p>
+            <p class="education-years">{edu.years}</p>
+            <p class="education-honors">{edu.honors}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
+  <!-- Certifications -->
+  <section class="section">
+    <div class="container">
+      <h2 class="bio-section-heading reveal">Certifications</h2>
+      <div class="cert-grid">
+        {certifications.map((cert, i) => (
+          <div class={`glass-card cert-card reveal reveal-delay-${Math.min((i % 5) + 1, 5)}`}>
+            <span class="cert-name">{cert}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
-  <!-- Steps Widget ****************** -->
+  <!-- Latest Posts -->
+  <section class="section">
+    <div class="container">
+      <h2 class="bio-section-heading reveal">Latest Posts</h2>
+      <div class="bio-posts-grid">
+        {latestPosts.map((post) => (
+          <PostCard post={post} />
+        ))}
+      </div>
+    </div>
+  </section>
 
-  <Steps
-    id="resume"
-    title="Work experience"
-    items={[
-      {
-        title: `
-        VP DIRECTOR, INFORMATION SECURITY ENGINEERING
-        <br/> <span class="font-normal">
-        Fifth Third Bank, Cincinnati OH (Remote) 
-        </span><br/> <span class="text-sm font-normal">
-        5/2022 – 12/2024
-        </span>`,
-        description: `
-        Spearheaded Enterprise Vulnerability Management program with a vision of innovation and automation that outpaces adversaries, by providing strategic leadership, cultivating key partnerships, and developing top talent to deliver excellence.
-        <br/>`,
-        icon: 'tabler:briefcase',
-      },
-      {
-        title: `
-          DIRECTOR, INFORMATION SECURITY
-          <br/><span class="font-normal">
-          Freddie Mac, McLean VA
-          </span> <br/> <span class="text-sm font-normal">
-          9/2017 – 5/2022
-          </span>`,
-        description: `
-        Established and matured comprehensive Vulnerability Management program, strengthening security posture across people, process, and technology. Drove transformation through automated innovative solutions, continuous improvement and strategic talent development.
-        <br/>`,
-        icon: 'tabler:briefcase',
-      },
-      {
-        title: `
-          INFORMATION SECURITY CONSULTANT
-          <br/><span class="font-normal">
-          Axxum Technologies, Herndon, VA 
-          </span> <br/> <span class="text-sm font-normal">
-          02/2016 – 09/2017
-          </span>`,
-        description: `
-        Served as Vulnerability Management SME for Freddie Mac, providing strategic guidance that accelerated their enterprise security program maturity, enhanced risk visibility, and delivered measurable cost savings through optimized security operations.
-        <br/>`,
-        icon: 'tabler:briefcase',
-      },
-      {
-        title: `
-          PENETRATION TESTER, RED TEAM
-          <br/><span class="font-normal">
-          Booz Allen Hamilton, McLean, VA
-          </span> <br/> <span class="text-sm font-normal">
-          08/2015 -02/2016
-          </span>`,
-        description: `
-        Led comprehensive security assessments across multiple technology platforms, identifying vulnerabilities and providing actionable remediation guidance to protect organizational assets.
-        <br/>`,
-        icon: 'tabler:briefcase',
-      },
-      {
-        title: `
-          LEAD, VULNERABILITY MANAGEMENT
-          <br/><span class="font-normal">
-          Booz Allen Hamilton, McLean, VA
-          </span> <br/> <span class="text-sm font-normal">
-          09/2013 – 08/2015
-          </span>`,
-        description: `
-        Led Vulnerability Management for Booz Allen Hamilton's internal Information Assurance program, implementing innovative solutions and automation to identify, assess, and mitigate security vulnerabilities across the organization.
-        <br/>`,
-        icon: 'tabler:briefcase',
-      },
-      {
-        title: `
-        TECH LEAD, SYSTEMS ENGINEER
-        <br/><span class="font-normal">
-        CompuCom, Herndon, VA
-        </span> <br/> <span class="text-sm font-normal">
-        04/2007- 09/2013
-        </span>`,
-        description: `
-        Led enterprise IT support operations for 25,000+ users, serving as primary technical escalation point for complex issues, executive support, and special initiatives.
-        <br/>`,
-        icon: 'tabler:briefcase',
-      },
-      {
-        title: `
-        CONSULTANT, INFORMATION TECHNOLOGY
-        <br/><span class="font-normal">
-        Self-Employed, Bulgaria
-        </span> <br/> <span class="text-sm font-normal">
-        04/2007- 09/2013
-        </span>`,
-        description: `
-        Established own IT consultancy as an early career professional, serving government and educational clients including a National Forestry branch and local high school. Provided comprehensive technical services including software and hardware maintenance, network troubleshooting, system builds, and security services.
-        <br/>`,
-        icon: 'tabler:briefcase',
-      },
-    ]}
-    classes={{ container: 'max-w-3xl' }}
-  />
+</PageLayout>
 
-  <!-- Steps Widget ****************** -->
+<style>
+  .bio-hero {
+    text-align: center;
+    padding-bottom: 2rem;
+  }
 
-  <Steps
-    id="resume"
-    title="Education"
-    items={[
-      {
-        title: `Master of Science (MS) in Computer Forensics, Concentration in Penetration Testing & Malware Reverse Engineering<br/> <span class="font-normal">George Mason University</span> <br/> <span class="text-sm font-normal">2016 - 2018, Summa Cum Laude</span>`,
-        icon: 'tabler:school',
-      },
-      {
-        title: `Bachelor of Science (BS) in Information Security <br/> <span class="font-normal">George Mason University</span> <br/> <span class="text-sm font-normal">2012 - 2015, Summa Cum Laude</span>`,
-        icon: 'tabler:school',
-      },
-    ]}
-    classes={{ container: 'max-w-3xl' }}
-  />
+  .bio-name {
+    font-size: var(--fluid-hero);
+    margin: 0 0 1rem;
+  }
 
-  <!-- Features3 Widget - Professional Certifications ************** -->
+  .bio-title {
+    color: var(--color-text-subtle);
+    font-size: var(--fluid-h3);
+    font-weight: 500;
+    margin: 0;
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-  <Features3
-    title="Professional Certifications"
-    subtitle="Cybersecurity Skills & Passion, Igniting Transformative Cybersecurity Innovation"
-    columns={4}
-    defaultIcon="tabler:point-filled"
-    items={[
-      {
-        title: 'CISSP',
-        description: 'ISC2 Certified Information Systems Security Professional',
-      },
-      {
-        title: 'GSLC',
-        description: 'GIAC Security Leadership',
-      },
-      {
-        title: 'GCSA',
-        description: 'GIAC Cloud Security and DevOps Automation',
-      },
-      {
-        title: 'GCPN',
-        description: 'GIAC Cloud Penetration Tester',
-      },
-      {
-        title: 'GXPN',
-        description: 'GIAC Exploit Researcher and Advanced Penetration Tester',
-      },
-      {
-        title: 'OSCP',
-        description: 'Offensive Security Certified Professional',
-      },
-      {
-        title: 'CEH',
-        description: 'Certified Ethical Hacker',
-      },
-      {
-        title: 'Security+',
-        description: 'CompTIA',
-      },
-      {
-        title: 'Secure Infrastructure Specialist',
-        description: 'CompTIA',
-      },
-      {
-        title: 'IT Operations Specialist',
-        description: 'CompTIA',
-      },
-      {
-        title: 'A+',
-        description: 'CompTIA',
-      },
-      {
-        title: 'NET+',
-        description: 'CompTIA',
-      },
-      {
-        title: 'MCP',
-        description: 'Microsoft Certified Professional',
-      },
-      {
-        title: 'MCTS',
-        description: 'Microsoft Certified Technical Specialist',
-      },
-      {
-        title: 'CCNA',
-        description: 'Cisco Certified Network Associate ',
-      },
-    ]}
-  />
+  .bio-section-heading {
+    font-size: var(--fluid-h2);
+    margin: 0 0 2rem;
+    text-align: center;
+  }
 
-  <!-- Features3 Widget - Skills ************** -->
+  .bio-about {
+    max-width: 48rem;
+    margin: 0 auto;
+    text-align: center;
+  }
 
-  <!-- COMMENT FOR NOW
-  <Features3
-    title="Skills"
-    subtitle="Discover the proficiencies that allow me to bring imagination to life through design."
-    columns={3}
-    defaultIcon="tabler:point-filled"
-    items={[
-      {
-        title: 'CISSP',
-        description: 'ISC2 Certified Information Systems Security Professional',
-      },
-      {
-        title: 'Branding and identity',
-        description: 'Skilled at developing cohesive brand identities, including logos and brand guidelines.',
-      },
-      {
-        title: 'User-centered design',
-        description: 'Experienced in creating user-friendly interfaces and optimizing user experiences.',
-      },
-      {
-        title: 'Adobe Creative Suite',
-        description: 'Skilled in using Photoshop, Illustrator, and InDesign to create and edit visual elements.',
-      },
-      {
-        title: 'Typography',
-        description: 'Adept in selecting and manipulating typefaces to enhance design aesthetics.',
-      },
-      {
-        title: 'Color theory',
-        description: 'Proficient in using color to evoke emotions and enhance visual harmony.',
-      },
-      {
-        title: 'Print and digital design',
-        description: 'Knowledgeable in designing for both print materials and digital platforms.',
-      },
-      {
-        title: 'Attention to detail',
-        description: 'Diligent in maintaining precision and quality in all design work.',
-      },
-      {
-        title: 'Adaptability',
-        description: 'Quick to adapt to new design trends, technologies, and client preferences.',
-      },
-    ]}
-  />
- -->
+  .bio-about-content {
+    color: var(--color-text-subtle);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
 
-  <!-- Content Widget - PORTFOLIO 1 **************** -->
-  <!-- 
-  <Content
-    id="portfolio"
-    title="Portfolio"
-    subtitle="Driving Innovation Through Automation: Tackling Real-World Challenges."
-    isReversed
-    items={[
-      {
-        title: 'Description:',
-        description:
-          'nvd-harvester is an open-source tool for efficiently fetching CVE data from NVD. It uses the NVD 2.0 API and multi-threading to quickly mirror and update a local CVE database. Key features include robust API error handling, efficient updates using data diffs, organized JSON output, and a SQL-ready CSV export for easy database integration.',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1658248165252-71e116af1b34?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=928&q=80',
-      alt: 'Tech Design Image',
+  .bio-about-content p {
+    margin: 0 0 1rem;
+  }
 
-    }}
-    callToAction={{
-      target: '_blank',
-      text: 'Go to the project',
-      icon: 'tabler:chevron-right',
-      href: 'https://github.com/bgx4k3p/nvd-harvester',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        NVD Harvester: <br/><span class="text-2xl">Automated CVE Updates</span>
-      </h3>
-    </Fragment>
+  .bio-social {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
 
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
+  /* Timeline */
+  .timeline {
+    position: relative;
+    max-width: 48rem;
+    margin: 0 auto;
+    padding-left: 2rem;
+  }
 
-    -->
-  <!-- Content Widget - PORTFOLIO 2 **************** -->
-  <!-- COMMENT FOR NOW
-  <Content
-    isReversed
-    isAfterContent={true}
-    items={[
-      {
-        title: 'Description:',
-        description:
-          'Designed a captivating event poster for an art and music festival, "ArtWave Fusion," aiming to showcase the synergy between visual art and music genres.',
-      },
-      {
-        title: 'Role:',
-        description: `Translated the festival's creative theme into a visually striking poster. Used bold typography, vibrant colors, and abstract elements to depict the fusion of art and music. Ensured the design captured the festival's vibrant atmosphere.`,
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1619983081563-430f63602796?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-      alt: 'Art and Music Poster Image',
-    }}
-    callToAction={{
-      target: '_blank',
-      text: 'Go to the project',
-      icon: 'tabler:chevron-right',
-      href: '#',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        Project 2: <br/><span class="text-2xl">Event poster for art & music festival</span>
-      </h3>
-    </Fragment>
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-border);
+  }
 
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
--->
-  <!-- Content Widget- PORTFOLIO 3 **************** -->
-  <!-- COMMENT FOR NOW
-  <Content
-    isReversed
-    isAfterContent={true}
-    items={[
-      {
-        title: 'Description:',
-        description: `Redesigned the e-commerce website for an eco-conscious fashion brand, GreenVogue. The objective was to align the brand's online presence with its sustainable ethos and improve user experience.`,
-      },
-      {
-        title: 'Role:',
-        description: `Conducted a thorough analysis of the brand's values and customer base to inform the design direction. Created a visually appealing interface with intuitive navigation, highlighting sustainable materials, and integrating a user-friendly shopping experience.`,
-      },
-    ]}
-    image={{
-      src: 'https://plus.unsplash.com/premium_photo-1683288295841-782fa47e4770?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-      alt: 'Fashion e-commerce Image',
-    }}
-    callToAction={{
-      target: '_blank',
-      text: 'Go to the project',
-      icon: 'tabler:chevron-right',
-      href: '#',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        Project 3: <br/><span class="text-2xl">E-commerce website redesign for fashion brand</span>
-      </h3>
-    </Fragment>
+  .timeline-item {
+    position: relative;
+    padding-bottom: 2rem;
+  }
 
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
--->
-  <!-- Testimonials Widget *********** -->
-  <!-- 
-  <Testimonials
-    title="Client testimonials"
-    subtitle="Discover what clients have to say about their experiences working with me."
-    testimonials={[
-      {
-        testimonial: `She took our vague concept and turned it into a visual masterpiece that perfectly aligned with our goals. Her attention to detail and ability to translate ideas into compelling visuals exceeded our expectations.`,
-        name: 'Mark Thompson',
-        job: 'Creative director',
-        image: {
-          src: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-          alt: 'Mark Thompson Image',
-        },
-      },
-      {
-        testimonial: `She transformed our brand identity with her creative finesse, capturing our essence in every element. Her dedication and talent truly shine through her work.`,
-        name: 'Emily Martinez',
-        job: 'CEO',
-        image: {
-          src: 'https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=772&q=80',
-          alt: 'Emily Martinez Image',
-        },
-      },
-      {
-        testimonial: `She has an uncanny ability to communicate emotions and stories. She crafted a logo for our NGO that not only represents our cause but also evokes empathy. Her professionalism and commitment make her a designer of exceptional caliber.`,
-        name: 'Laura Simmons',
-        job: 'Founder of an NGO',
-        image: {
-          src: 'https://images.unsplash.com/photo-1554727242-741c14fa561c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-          alt: 'Laura Simmons Image',
-        },
-      },
-      {
-        testimonial: `We entrusted Sarah with revamping our website's user interface, and the results were astounding. Her intuitive design sense enhanced user experience, leading to a significant increase in engagement. She's a designer who truly understands the synergy of aesthetics and functionality.`,
-        name: 'Alex Foster',
-        job: 'Director of web services',
-        image: {
-          src: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-          alt: 'Alex Foster Image',
-        },
-      },
-      {
-        testimonial: `She took our vision and elevated it beyond imagination. Her ability to capture brand essence and translate it into design is nothing short of remarkable. Working with her has been an inspiring journey.`,
-        name: 'Jessica Collins',
-        job: 'Product Manager',
-        image: {
-          src: 'https://images.unsplash.com/photo-1548142813-c348350df52b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=778&q=80',
-          alt: 'Jessica Collins Image',
-        },
-      },
-      {
-        testimonial: `Her ability to transform concepts into captivating visuals is nothing short of extraordinary. She took our event poster idea and turned it into a visual masterpiece that perfectly captured the essence of our festival. Sarah's dedication, creativity, and knack for delivering beyond expectations make her an invaluable asset to any project.`,
-        name: 'Michael Carter',
-        job: 'Event Coordinator',
-        image: {
-          src: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-          alt: 'Michael Carter Image',
-        },
-      },
-    ]}
-  />
--->
+  .timeline-marker {
+    position: absolute;
+    left: -1.625rem;
+    top: 1.5rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    border: 2px solid var(--color-bg);
+  }
 
-  <!-- CallToAction Widget *********** -->
-  <!-- 
-  <CallToAction
-    title="Let's create together"
-    subtitle="Ready to transform your vision into captivating designs?"
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Hire me',
-        href: '/',
-      },
-    ]}
-  />
--->
-  <!-- BlogLatestPost Widget **************** -->
+  .timeline-card {
+    padding: 1.5rem;
+    margin-left: 1rem;
+  }
 
-  <BlogLatestPosts
-    id="blog"
-    title="Discover My Latest Insights on My Blog"
-    information={`Get practical tips, effective practices and actionable insights for information security and technology.`}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </BlogLatestPosts>
-</Layout>
+  .timeline-title {
+    font-size: var(--fluid-h3);
+    margin: 0 0 0.25rem;
+  }
+
+  .timeline-company {
+    color: var(--color-accent-text);
+    font-weight: 500;
+    margin: 0 0 0.25rem;
+    font-size: var(--fluid-small);
+  }
+
+  .timeline-dates {
+    color: var(--color-text-faint);
+    font-size: var(--fluid-small);
+    margin: 0 0 0.75rem;
+  }
+
+  .timeline-description {
+    color: var(--color-text-subtle);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* Education */
+  .education-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+
+  .education-card {
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .education-degree {
+    font-size: var(--fluid-h3);
+    margin: 0 0 0.5rem;
+  }
+
+  .education-school {
+    color: var(--color-accent-text);
+    font-weight: 500;
+    margin: 0 0 0.25rem;
+  }
+
+  .education-years {
+    color: var(--color-text-faint);
+    font-size: var(--fluid-small);
+    margin: 0 0 0.5rem;
+  }
+
+  .education-honors {
+    color: var(--color-success);
+    font-weight: 600;
+    font-size: var(--fluid-small);
+    margin: 0;
+  }
+
+  /* Certifications */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    max-width: 60rem;
+    margin: 0 auto;
+  }
+
+  .cert-card {
+    padding: 1rem 1.25rem;
+    text-align: center;
+  }
+
+  .cert-name {
+    font-weight: 600;
+    font-size: var(--fluid-small);
+    color: var(--color-text);
+  }
+
+  /* Latest Posts */
+  .bio-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+</style>

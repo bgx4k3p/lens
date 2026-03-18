@@ -1,36 +1,40 @@
 ---
-import { Icon } from 'astro-icon/components';
-import { getPermalink } from '~/utils/permalinks';
-import Button from '~/components/ui/Button.astro';
-
-export interface Props {
+// src/components/blog/Pagination.astro
+// Pagination nav with prev/next buttons
+interface Props {
+  page?: { url: { prev?: string; next?: string } };
   prevUrl?: string;
   nextUrl?: string;
-  prevText?: string;
-  nextText?: string;
 }
 
-const { prevUrl, nextUrl, prevText = 'Newer posts', nextText = 'Older posts' } = Astro.props;
+const { page, prevUrl: directPrev, nextUrl: directNext } = Astro.props;
+const prevUrl = directPrev || page?.url?.prev;
+const nextUrl = directNext || page?.url?.next;
 ---
 
-{
-  (prevUrl || nextUrl) && (
-    <div class="container flex">
-      <div class="flex flex-row mx-auto container justify-between">
-        <Button
-          variant="tertiary"
-          class={`md:px-3 px-3 mr-2 ${!prevUrl ? 'invisible' : ''}`}
-          href={getPermalink(prevUrl)}
-        >
-          <Icon name="tabler:chevron-left" class="w-6 h-6" />
-          <p class="ml-2">{prevText}</p>
-        </Button>
+{(prevUrl || nextUrl) && (
+  <nav class="pagination" aria-label="Pagination">
+    {prevUrl ? (
+      <a href={prevUrl} class="btn-ghost">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        Previous
+      </a>
+    ) : <span></span>}
+    {nextUrl ? (
+      <a href={nextUrl} class="btn-ghost">
+        Next
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+    ) : <span></span>}
+  </nav>
+)}
 
-        <Button variant="tertiary" class={`md:px-3 px-3 ${!nextUrl ? 'invisible' : ''}`} href={getPermalink(nextUrl)}>
-          <span class="mr-2">{nextText}</span>
-          <Icon name="tabler:chevron-right" class="w-6 h-6" />
-        </Button>
-      </div>
-    </div>
-  )
-}
+<style>
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+</style>

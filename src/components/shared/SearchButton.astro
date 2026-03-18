@@ -1,0 +1,77 @@
+---
+// src/components/shared/SearchButton.astro
+// Pagefind search trigger button
+---
+
+<button id="search-btn" class="icon-btn" aria-label="Search" type="button">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+  </svg>
+</button>
+
+<div id="search-overlay" class="search-overlay" hidden>
+  <div id="search-container" class="search-container glass-card-strong"></div>
+</div>
+
+<style>
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--modal-overlay);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 6rem;
+  }
+  .search-container {
+    width: 100%;
+    max-width: 40rem;
+    padding: 1.5rem;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+</style>
+
+<script>
+  async function initSearch() {
+    const btn = document.getElementById('search-btn');
+    const overlay = document.getElementById('search-overlay');
+    const container = document.getElementById('search-container');
+    if (!btn || !overlay || !container) return;
+
+    let initialized = false;
+
+    async function open() {
+      overlay!.hidden = false;
+      if (!initialized) {
+        const { PagefindUI } = await import('/lens/pagefind/pagefind-ui.js');
+        new PagefindUI({ element: container, showSubResults: true });
+        initialized = true;
+      }
+      setTimeout(() => {
+        const input = container!.querySelector<HTMLInputElement>('input');
+        input?.focus();
+      }, 100);
+    }
+
+    function close() {
+      overlay!.hidden = true;
+    }
+
+    btn.addEventListener('click', open);
+    overlay!.addEventListener('click', (e) => {
+      if (e.target === overlay) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !overlay!.hidden) close();
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        overlay!.hidden ? open() : close();
+      }
+    });
+  }
+
+  initSearch();
+  document.addEventListener('astro:after-swap', initSearch);
+</script>

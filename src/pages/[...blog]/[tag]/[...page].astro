@@ -1,39 +1,59 @@
 ---
-// Imports
-import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
-import { blogTagRobots, getStaticPathsBlogTag } from '~/utils/blog';
-
-import Layout from '~/layouts/PageLayout.astro';
-import BlogList from '~/components/blog/List.astro';
-import Headline from '~/components/blog/Headline.astro';
-import Pagination from '~/components/blog/Pagination.astro';
-
-// Exports
 export const prerender = true;
 
-export const getStaticPaths = (async ({ paginate }) => {
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '~/layouts/PageLayout.astro';
+import PostList from '~/components/blog/PostList.astro';
+import Pagination from '~/components/blog/Pagination.astro';
+import { getStaticPathsBlogTag } from '~/lib/blog';
+import { SITE } from '~/lib/constants';
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   return await getStaticPathsBlogTag({ paginate });
-}) satisfies GetStaticPaths;
-
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-
-const { page, tag } = Astro.props as Props;
-
-const currentPage = page.currentPage ?? 1;
-
-const metadata = {
-  title: `Posts by tag '${tag.title}'${currentPage > 1 ? ` — Page ${currentPage} ` : ''}`,
-  robots: {
-    index: blogTagRobots?.index,
-    follow: blogTagRobots?.follow,
-  },
 };
+
+const { page } = Astro.props;
+const { tag } = Astro.props;
 ---
 
-<Layout metadata={metadata}>
-  <section class="px-4 md:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
-    <Headline>Tag: {tag.title}</Headline>
-    <BlogList posts={page.data} />
-    <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
+<PageLayout
+  title={`#${tag.title} | ${SITE.name}`}
+  description={`Posts tagged with "${tag.title}".`}
+  robots={{ index: false, follow: true }}
+>
+  <section class="section section-page-top">
+    <div class="container">
+      <div class="tag-header reveal">
+        <a href={`${SITE.base}/tags`} class="back-link">&larr; All tags</a>
+        <h1 class="tag-headline"><span class="gradient-text">#{tag.title}</span></h1>
+      </div>
+      <PostList posts={page.data} />
+      <Pagination page={page} />
+    </div>
   </section>
-</Layout>
+</PageLayout>
+
+<style>
+  .tag-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: var(--color-text-faint);
+    font-size: var(--fluid-small);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-accent);
+  }
+
+  .tag-headline {
+    font-size: var(--fluid-hero);
+    margin: 0;
+  }
+</style>

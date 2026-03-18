@@ -1,0 +1,88 @@
+/*
+ * Navigation styles — shared across header and mobile menu.
+ */
+
+/* Logo */
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.site-logo-text {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+/* Nav links */
+.site-nav-link {
+  padding: 0.625rem 1rem;
+  color: var(--color-text-subtle);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.6;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.site-nav-link:hover {
+  color: var(--color-text);
+  background-color: var(--glass-overlay);
+}
+
+.site-nav-link[aria-current='page'] {
+  color: var(--color-accent);
+}
+
+/* Dropdown */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 10rem;
+  padding: 0.5rem;
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 0.75rem;
+  box-shadow: var(--popup-shadow);
+  z-index: 60;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  display: block;
+}
+
+.nav-dropdown-item {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  color: var(--color-text-subtle);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.nav-dropdown-item:hover {
+  color: var(--color-text);
+  background-color: var(--glass-overlay);
+}

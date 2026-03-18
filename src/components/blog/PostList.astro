@@ -1,0 +1,16 @@
+---
+import type { Post } from '~/lib/blog';
+import PostCard from './PostCard.astro';
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {posts.map((post) => (
+    <PostCard post={post} />
+  ))}
+</div>

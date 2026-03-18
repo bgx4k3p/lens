@@ -1,150 +1,144 @@
 ---
-// src/pages/[...blog]/[...page].astro
-import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
-import Layout from '~/layouts/PageLayout.astro';
-import BlogList from '~/components/blog/List.astro';
-import Headline from '~/components/blog/Headline.astro';
-import Pagination from '~/components/blog/Pagination.astro';
-import FeaturedBlogPosts from '~/components/widgets/FeaturedBlogPosts.astro';
-// import PostTags from "~/components/blog/Tags.astro";
-import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
-import { getPermalink } from '~/utils/permalinks';
-
-// Exports
 export const prerender = true;
 
-export const getStaticPaths = (async ({ paginate }) => {
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '~/layouts/PageLayout.astro';
+import PostList from '~/components/blog/PostList.astro';
+import Pagination from '~/components/blog/Pagination.astro';
+import { getStaticPathsBlogList, findFeaturedPosts, getPermalink } from '~/lib/blog';
+import { SITE, CATEGORIES } from '~/lib/constants';
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   return await getStaticPathsBlogList({ paginate });
-}) satisfies GetStaticPaths;
-
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-
-const { page } = Astro.props as Props;
-const currentPage = page.currentPage ?? 1;
-
-// const allCategories = await findCategories();
-// const allTags = await findTags();
-
-const metadata = {
-  title: `Blog${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
-  robots: {
-    index: blogListRobots?.index && currentPage === 1,
-    follow: blogListRobots?.follow,
-  },
-  openGraph: {
-    type: 'website',
-  },
 };
 
-let subtitle = 'InfoSec & Tech: Practical Tips & Strategic Insights by bgx4k3p';
-subtitle = subtitle.replace(
-  'bgx4k3p',
-  `<a href="${getPermalink('/bio')}" class="text-blue-500 hover:underline">bgx4k3p</a>`
-);
+const { page } = Astro.props;
+const featuredPosts = await findFeaturedPosts();
 ---
 
-<Layout metadata={metadata}>
-  <!-- Main container with wider max-width for sidebar -->
-  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-7xl">
-    <!-- Header -->
-    <div class="max-w-4xl mx-auto mb-12">
-      <Headline subtitle={subtitle}>The bgx Lens</Headline>
-    </div>
-
-    <!-- Main content with sidebar layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
-      <!-- Main blog content (3/4 width) -->
-      <div class="lg:col-span-3">
-        <BlogList posts={page.data} />
-        <div class="mt-12">
-          <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
-        </div>
-        <!--
-          <PostTags tags={allCategories} class="mb-2" title="Search by Categories:" isCategory />
-          <PostTags tags={allTags}  title="Search by Tags:" />
-        -->
+<PageLayout title={`Blog | ${SITE.name}`} description={SITE.description}>
+  <section class="section section-page-top">
+    <div class="container">
+      <div class="blog-header reveal">
+        <h1 class="blog-headline"><span class="gradient-text">The bgx Lens</span></h1>
+        <p class="blog-subtitle">Solving complex InfoSec & Tech challenges with practical advice and strategic expertise.</p>
       </div>
 
-      <!-- Sidebar (1/4 width) -->
-      <div class="lg:col-span-1">
-        <div class="sticky top-8 space-y-8">
-          <!-- Featured Blog Posts -->
-          <FeaturedBlogPosts
-            title="Featured Posts"
-            count={5}
-            showImage={true}
-            showExcerpt={false}
-            showDate={true}
-            showAuthor={false}
-            classes={{
-              container: 'h-fit',
-            }}
-          />
+      <div class="blog-layout">
+        <div class="blog-main">
+          <PostList posts={page.data} />
+          <Pagination page={page} />
+        </div>
 
-          <!-- Categories -->
-          <div class="bg-transparent dark:bg-transparent rounded-none shadow-none border-none p-6 w-80">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Categories</h3>
-            <div class="space-y-3">
-              <a
-                href={getPermalink('security', 'category')}
-                class="inline-flex items-center w-full px-2 py-1 rounded-full
-                       bg-primary/10 dark:bg-blue-500/10 hover:bg-primary/20 dark:hover:bg-blue-500/20
-                       transition-colors duration-200"
-              >
-                <div class="flex items-center">
-                  <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                  <span class="text-xs font-medium text-primary dark:text-blue-400">Security</span>
-                </div>
-              </a>
-              <a
-                href={getPermalink('ai', 'category')}
-                class="inline-flex items-center w-full px-2 py-1 rounded-full
-                       bg-primary/10 dark:bg-green-500/10 hover:bg-primary/20 dark:hover:bg-green-500/20
-                       transition-colors duration-200"
-              >
-                <div class="flex items-center">
-                  <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                  <span class="text-xs font-medium text-primary dark:text-green-400">AI</span>
-                </div>
-              </a>
-              <a
-                href={getPermalink('automation', 'category')}
-                class="inline-flex items-center w-full px-2 py-1 rounded-full
-                       bg-primary/10 dark:bg-purple-500/10 hover:bg-primary/20 dark:hover:bg-purple-500/20
-                       transition-colors duration-200"
-              >
-                <div class="flex items-center">
-                  <span class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>
-                  <span class="text-xs font-medium text-primary dark:text-purple-400">Automation</span>
-                </div>
-              </a>
-              <a
-                href={getPermalink('tutorial', 'category')}
-                class="inline-flex items-center w-full px-2 py-1 rounded-full
-                       bg-primary/10 dark:bg-orange-500/10 hover:bg-primary/20 dark:hover:bg-orange-500/20
-                       transition-colors duration-200"
-              >
-                <div class="flex items-center">
-                  <span class="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>
-                  <span class="text-xs font-medium text-primary dark:text-orange-400">Tutorial</span>
-                </div>
-              </a>
-            </div>
+        <aside class="blog-sidebar">
+          <div class="sidebar-section glass-card-strong sidebar-sticky">
+            <h3 class="sidebar-title">Featured Posts</h3>
+            <ul class="sidebar-list">
+              {featuredPosts.map((post) => (
+                <li>
+                  <a href={getPermalink(post.permalink, 'post')} class="sidebar-link">
+                    {post.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <div class="mt-4 pt-4 border-t border-gray-100 dark:border-slate-800">
-              <a
-                href={getPermalink('tags')}
-                class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-blue-400 transition-colors duration-200"
-              >
-                View all tags
-                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </a>
+          <div class="sidebar-section glass-card-strong">
+            <h3 class="sidebar-title">Categories</h3>
+            <div class="sidebar-categories">
+              {CATEGORIES.map((cat) => (
+                <a href={getPermalink(cat, 'category')} class="category-badge">
+                  <span class="category-dot"></span>
+                  {cat}
+                </a>
+              ))}
             </div>
           </div>
-        </div>
+        </aside>
       </div>
     </div>
   </section>
-</Layout>
+</PageLayout>
+
+<style>
+  .blog-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .blog-headline {
+    font-size: var(--fluid-hero);
+    margin: 0 0 1rem;
+  }
+
+  .blog-subtitle {
+    color: var(--color-text-subtle);
+    font-size: var(--fluid-body);
+    max-width: 40rem;
+    margin: 0 auto;
+  }
+
+  .blog-layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  @media (max-width: 1024px) {
+    .blog-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .blog-main {
+    min-width: 0;
+  }
+
+  .blog-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .sidebar-sticky {
+    position: sticky;
+    top: 6rem;
+  }
+
+  .sidebar-section {
+    padding: 1.5rem;
+  }
+
+  .sidebar-title {
+    font-size: var(--fluid-h3);
+    margin: 0 0 1rem;
+  }
+
+  .sidebar-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .sidebar-link {
+    color: var(--color-text-subtle);
+    font-size: var(--fluid-small);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .sidebar-link:hover {
+    color: var(--color-accent);
+  }
+
+  .sidebar-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>

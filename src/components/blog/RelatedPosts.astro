@@ -1,31 +1,34 @@
 ---
-import { APP_BLOG } from 'astrowind:config';
+import type { Post } from '~/lib/blog';
+import { getRelatedPosts } from '~/lib/blog';
+import PostCard from './PostCard.astro';
 
-import { getRelatedPosts } from '~/utils/blog';
-import BlogHighlightedPosts from '../widgets/BlogHighlightedPosts.astro';
-import type { Post } from '~/types';
-import { getBlogPermalink } from '~/utils/permalinks';
-
-export interface Props {
+interface Props {
   post: Post;
 }
 
 const { post } = Astro.props;
-
-const relatedPosts = post.tags ? await getRelatedPosts(post, 4) : [];
+const relatedPosts = await getRelatedPosts(post, 4);
 ---
 
-{
-  APP_BLOG.isRelatedPostsEnabled ? (
-    <BlogHighlightedPosts
-      classes={{
-        container:
-          'pt-0 lg:pt-0 md:pt-0 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade',
-      }}
-      title="Related Posts"
-      linkText="View All Posts"
-      linkUrl={getBlogPermalink()}
-      postIds={relatedPosts.map((post) => post.id)}
-    />
-  ) : null
-}
+{relatedPosts.length > 0 && (
+  <section class="related-posts">
+    <h2 class="related-posts-title">Related Posts</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {relatedPosts.map((related) => (
+        <PostCard post={related} />
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .related-posts {
+    margin-top: 3rem;
+  }
+
+  .related-posts-title {
+    font-size: var(--fluid-h2);
+    margin-bottom: 1.5rem;
+  }
+</style>
