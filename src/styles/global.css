@@ -175,6 +175,11 @@ a:hover {
   color: var(--color-text);
 }
 
+.btn-ghost:active {
+  transform: scale(0.97);
+  background-color: var(--glass-overlay);
+}
+
 /* Container */
 .container {
   width: 100%;
@@ -263,6 +268,10 @@ a:hover {
   color: var(--color-accent-text);
 }
 
+.tag-chip:active {
+  transform: scale(0.95);
+}
+
 :root[data-theme='light'] .tag-chip {
   color: var(--color-accent);
   background-color: rgba(37, 99, 235, 0.08);
@@ -291,6 +300,10 @@ a:hover {
 .category-badge:hover {
   background-color: var(--glass-overlay-hover);
   color: var(--color-text);
+}
+
+.category-badge:active {
+  transform: scale(0.95);
 }
 
 .category-dot {
@@ -344,15 +357,24 @@ a:hover {
   font-size: 0.875em;
 }
 
-/* Anchor link on headings — hash icon appears on hover */
+/* Anchor link on headings — looks like normal heading, # icon on hover */
+.prose h1 a.anchor-link,
+.prose h2 a.anchor-link,
+.prose h3 a.anchor-link,
+.prose h4 a.anchor-link,
 .anchor-link {
   color: inherit;
   text-decoration: none;
   position: relative;
 }
 
+.prose h1 a.anchor-link:hover,
+.prose h2 a.anchor-link:hover,
+.prose h3 a.anchor-link:hover,
+.prose h4 a.anchor-link:hover,
 .anchor-link:hover {
   color: inherit;
+  text-decoration: none;
 }
 
 .anchor-link::after {
@@ -419,6 +441,15 @@ a:hover {
   border-radius: 0.5rem;
 }
 
+.mobile-nav-link:hover {
+  color: var(--color-accent);
+  background-color: var(--glass-overlay);
+}
+
+.mobile-nav-link:active {
+  background-color: var(--glass-overlay-hover);
+}
+
 .mobile-nav-link[aria-current='page'] {
   color: var(--color-accent);
 }
@@ -427,6 +458,20 @@ a:hover {
   height: 1px;
   background: var(--color-border);
   margin: 0.75rem 0;
+}
+
+/* ExpressiveCode — colored macOS traffic light dots
+ * EC's stylesheet loads after ours (via <link> in body), so we need
+ * to override its mask-based monochrome dots with a colored SVG.
+ * This is the only place !important is used — justified by load order. */
+.expressive-code .frame.is-terminal .header::before {
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  background-color: transparent !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 16'%3E%3Ccircle cx='8' cy='8' r='8' fill='%23ff5f57'/%3E%3Ccircle cx='30' cy='8' r='8' fill='%23febc2e'/%3E%3Ccircle cx='52' cy='8' r='8' fill='%2328c840'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  opacity: 1 !important;
 }
 
 /* Responsive table wrapper */

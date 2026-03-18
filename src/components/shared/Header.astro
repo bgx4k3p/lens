@@ -40,7 +40,7 @@ const base = SITE.base;
       <SearchButton />
       <ThemeToggle />
 
-      <button class="icon-btn header-menu-btn" aria-label="Open menu" type="button">
+      <button class="icon-btn header-menu-btn" aria-label="Open menu" aria-expanded="false" type="button">
         <svg class="menu-open-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
         </svg>
@@ -51,7 +51,7 @@ const base = SITE.base;
     </div>
   </div>
 
-  <nav class="mobile-menu" aria-label="Mobile navigation">
+  <nav class="mobile-menu" aria-label="Mobile navigation" aria-hidden="true">
     <a href={base} class="mobile-nav-link">Home</a>
     <div class="mobile-nav-divider"></div>
     <a href={`${base}/category/security`} class="mobile-nav-link">Security</a>
@@ -155,6 +155,10 @@ const base = SITE.base;
         closeIcon.style.display = isOpen ? 'block' : 'none';
       }
       menuBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+      menuBtn.setAttribute('aria-expanded', String(!!isOpen));
+      if (mobileMenu instanceof HTMLElement) {
+        mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+      }
     });
 
     document.addEventListener('keydown', (e) => {
@@ -163,6 +167,10 @@ const base = SITE.base;
         if (openIcon instanceof HTMLElement && closeIcon instanceof HTMLElement) {
           openIcon.style.display = 'block';
           closeIcon.style.display = 'none';
+        }
+        menuBtn?.setAttribute('aria-expanded', 'false');
+        if (mobileMenu instanceof HTMLElement) {
+          mobileMenu.setAttribute('aria-hidden', 'true');
         }
       }
     });

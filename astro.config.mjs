@@ -51,6 +51,10 @@ export default defineConfig({
         borderRadius: '0.75rem',
         codeFontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
         uiFontFamily: "'Inter Variable', 'Inter', system-ui, sans-serif",
+        frames: {
+          editorTabBarBorderBottomColor: 'var(--color-border)',
+          terminalTitlebarDotsOpacity: '1',
+        },
       },
     }),
     mdx(),

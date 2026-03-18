@@ -6,6 +6,7 @@
 <aside class="toc-sidebar" id="toc-sidebar">
   <div class="toc-inner">
     <h4 class="toc-title">On this page</h4>
+
     <nav class="toc-nav" id="toc-nav" aria-label="Table of contents">
     </nav>
   </div>
@@ -34,26 +35,26 @@
   }
 
   .toc-title {
-    font-size: 0.8125rem;
+    font-size: 0.6875rem;
     font-weight: 600;
-    color: var(--color-text);
+    color: var(--color-text-faint);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin: 0 0 0.75rem;
+    letter-spacing: 0.06em;
+    margin: 0 0 0.625rem;
   }
 
   .toc-nav :global(a) {
     display: block;
-    padding: 0.25rem 0;
-    font-size: 0.8125rem;
-    line-height: 1.4;
+    padding: 0.1875rem 0;
+    font-size: 0.75rem;
+    line-height: 1.45;
     color: var(--color-text-faint);
     text-decoration: none;
     transition: color 0.15s ease;
   }
 
   .toc-nav :global(a:hover) {
-    color: var(--color-text);
+    color: var(--color-accent);
   }
 
   .toc-nav :global(a.active) {
