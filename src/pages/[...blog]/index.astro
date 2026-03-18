@@ -1,12 +1,13 @@
 ---
 // src/pages/[...blog]/index.astro
-// Single blog post page
+// Single blog post page with TOC sidebar
 export const prerender = true;
 
 import type { GetStaticPaths } from 'astro';
 import PageLayout from '~/layouts/PageLayout.astro';
 import PostContent from '~/components/blog/PostContent.astro';
 import RelatedPosts from '~/components/blog/RelatedPosts.astro';
+import TableOfContents from '~/components/blog/TableOfContents.astro';
 import { getStaticPathsBlogPost, getCanonical } from '~/lib/blog';
 import type { Post } from '~/lib/blog';
 
@@ -26,10 +27,13 @@ const canonical = getCanonical(post.permalink);
 >
   <section class="section section-page-top">
     <div class="container">
-      <div class="post-layout">
-        <PostContent post={post}>
-          {post.Content && <post.Content />}
-        </PostContent>
+      <div class="post-page-layout">
+        <div class="post-page-main">
+          <PostContent post={post}>
+            {post.Content && <post.Content />}
+          </PostContent>
+        </div>
+        <TableOfContents />
       </div>
     </div>
   </section>
@@ -42,8 +46,22 @@ const canonical = getCanonical(post.permalink);
 </PageLayout>
 
 <style>
-  .post-layout {
+  .post-page-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
     max-width: 52rem;
     margin: 0 auto;
+  }
+
+  @media (min-width: 1280px) {
+    .post-page-layout {
+      grid-template-columns: 1fr 14rem;
+      max-width: 68rem;
+    }
+  }
+
+  .post-page-main {
+    min-width: 0;
   }
 </style>

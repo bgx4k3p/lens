@@ -61,6 +61,9 @@ const ogImageUrl = image?.startsWith('http') ? image : new URL(image, siteUrl).h
     <!-- Google Site Verification -->
     <meta name="google-site-verification" content={SITE.googleSiteVerificationId} />
 
+    <!-- Pagefind search UI styles (loaded from build output) -->
+    <link rel="stylesheet" href={`${SITE.base}/pagefind/pagefind-ui.css`} />
+
     <slot name="head" />
 
     <!-- Google Analytics — loaded by Klaro only after consent -->

@@ -2,6 +2,7 @@
 // src/components/shared/Header.astro
 // Fixed glass header with nav, dropdown, theme toggle, mobile menu
 import ThemeToggle from './ThemeToggle.astro';
+import SearchButton from './SearchButton.astro';
 import { SITE } from '~/lib/constants';
 
 const base = SITE.base;
@@ -36,6 +37,7 @@ const base = SITE.base;
     </nav>
 
     <div class="header-actions">
+      <SearchButton />
       <ThemeToggle />
 
       <button class="icon-btn header-menu-btn" aria-label="Open menu" type="button">
