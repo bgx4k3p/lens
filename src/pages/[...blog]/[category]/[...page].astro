@@ -20,7 +20,7 @@ const { category } = Astro.props;
   <section class="section section-page-top">
     <div class="container">
       <div class="category-header reveal">
-        <a href={`${SITE.base}/`} class="back-link">&larr; All posts</a>
+        <a href={SITE.base} class="back-link">&larr; All posts</a>
         <h1 class="category-headline"><span class="gradient-text">{category.title}</span></h1>
       </div>
       <PostList posts={page.data} />
