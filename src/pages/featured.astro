@@ -1,0 +1,61 @@
+---
+export const prerender = true;
+
+import PageLayout from '~/layouts/PageLayout.astro';
+import PostList from '~/components/blog/PostList.astro';
+import { findFeaturedPosts, getPermalink } from '~/lib/blog';
+import { SITE } from '~/lib/constants';
+
+const featuredPosts = await findFeaturedPosts();
+---
+
+<PageLayout title={`Featured Posts | ${SITE.name}`} description="Hand-picked posts worth reading.">
+  <section class="section section-page-top">
+    <div class="container">
+      <div class="featured-header reveal">
+        <a href={getPermalink('')} class="back-link">&larr; All posts</a>
+        <h1 class="featured-headline"><span class="gradient-text">Featured Posts</span></h1>
+        <p class="featured-subtitle">{featuredPosts.length} hand-picked posts worth reading.</p>
+      </div>
+
+      <div class="featured-content">
+        <PostList posts={featuredPosts} />
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .featured-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--color-text-subtle);
+    font-size: var(--fluid-small);
+    text-decoration: none;
+    margin-bottom: 1rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-accent);
+  }
+
+  .featured-headline {
+    font-size: var(--fluid-h1);
+    margin: 0 0 0.75rem;
+  }
+
+  .featured-subtitle {
+    color: var(--color-text-subtle);
+    font-size: var(--fluid-body);
+  }
+
+  .featured-content {
+    max-width: 52rem;
+    margin: 0 auto;
+  }
+</style>

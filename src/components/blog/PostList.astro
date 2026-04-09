@@ -9,8 +9,28 @@ interface Props {
 const { posts } = Astro.props;
 ---
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  {posts.map((post) => (
-    <PostCard post={post} />
+<ul class="post-feed">
+  {posts.map((post, i) => (
+    <li class="post-feed-item">
+      <PostCard post={post} index={i} />
+    </li>
   ))}
-</div>
+</ul>
+
+<style>
+  .post-feed {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .post-feed-item {
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .post-feed-item {
+      margin-bottom: 5rem;
+    }
+  }
+</style>

@@ -71,10 +71,18 @@ const base = SITE.base;
     left: 0;
     right: 0;
     z-index: 100;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: 1px solid transparent;
+    transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+  }
+
+  .site-header.is-scrolled {
     background: var(--glass-bg-strong);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--glass-border);
+    border-bottom-color: var(--glass-border);
   }
 
   .header-inner {
@@ -143,10 +151,22 @@ const base = SITE.base;
 
 <script>
   function initHeader() {
+    const header = document.querySelector('.site-header');
     const menuBtn = document.querySelector('.header-menu-btn');
     const mobileMenu = document.querySelector('.mobile-menu');
     const openIcon = document.querySelector('.menu-open-icon');
     const closeIcon = document.querySelector('.menu-close-icon');
+
+    function onScroll() {
+      if (window.scrollY > 60) {
+        header?.classList.add('is-scrolled');
+      } else {
+        header?.classList.remove('is-scrolled');
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
     menuBtn?.addEventListener('click', () => {
       const isOpen = mobileMenu?.classList.toggle('is-open');
