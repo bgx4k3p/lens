@@ -1,37 +1,55 @@
 ---
-import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
-import { blogCategoryRobots, getStaticPathsBlogCategory } from '~/utils/blog';
-
-import Layout from '~/layouts/PageLayout.astro';
-import BlogList from '~/components/blog/List.astro';
-import Headline from '~/components/blog/Headline.astro';
-import Pagination from '~/components/blog/Pagination.astro';
-
 export const prerender = true;
 
-export const getStaticPaths = (async ({ paginate }) => {
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '~/layouts/PageLayout.astro';
+import PostList from '~/components/blog/PostList.astro';
+import Pagination from '~/components/blog/Pagination.astro';
+import { getStaticPathsBlogCategory } from '~/lib/blog';
+import { SITE } from '~/lib/constants';
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   return await getStaticPathsBlogCategory({ paginate });
-}) satisfies GetStaticPaths;
-
-type Props = InferGetStaticPropsType<typeof getStaticPaths> & { category: Record<string, string> };
-
-const { page, category } = Astro.props as Props;
-
-const currentPage = page.currentPage ?? 1;
-
-const metadata = {
-  title: `Category '${category.title}' ${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
-  robots: {
-    index: blogCategoryRobots?.index,
-    follow: blogCategoryRobots?.follow,
-  },
 };
+
+const { page } = Astro.props;
+const { category } = Astro.props;
 ---
 
-<Layout metadata={metadata}>
-  <section class="px-4 md:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
-    <Headline>{category.title}</Headline>
-    <BlogList posts={page.data} />
-    <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
+<PageLayout title={`${category.title} | ${SITE.name}`} description={`Posts in the ${category.title} category.`}>
+  <section class="section section-page-top">
+    <div class="container">
+      <div class="category-header reveal">
+        <a href={SITE.base} class="back-link">&larr; All posts</a>
+        <h1 class="category-headline"><span class="gradient-text">{category.title}</span></h1>
+      </div>
+      <PostList posts={page.data} />
+      <Pagination page={page} />
+    </div>
   </section>
-</Layout>
+</PageLayout>
+
+<style>
+  .category-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: var(--color-text-faint);
+    font-size: var(--fluid-small);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-accent);
+  }
+
+  .category-headline {
+    font-size: var(--fluid-h1);
+    margin: 0;
+  }
+</style>

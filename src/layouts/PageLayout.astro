@@ -1,26 +1,26 @@
 ---
-import Layout from '~/layouts/Layout.astro';
-import Header from '~/components/widgets/Header.astro';
-import Footer from '~/components/widgets/Footer.astro';
+// src/layouts/PageLayout.astro
+// Standard page layout with header and footer
+import Layout from './Layout.astro';
+import Header from '~/components/shared/Header.astro';
+import Footer from '~/components/shared/Footer.astro';
 
-import { headerData, footerData } from '~/navigation';
-import type { MetaData } from '~/types';
-
-export interface Props {
-  metadata?: MetaData;
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  robots?: { index?: boolean; follow?: boolean };
 }
 
-const { metadata } = Astro.props;
+const props = Astro.props;
 ---
 
-<Layout metadata={metadata}>
-  <slot name="header">
-    <Header {...headerData} isSticky showRssFeed showToggleTheme />
-  </slot>
+<Layout {...props}>
+  <slot name="head" slot="head" />
+  <Header />
   <main>
     <slot />
   </main>
-  <slot name="footer">
-    <Footer {...footerData} />
-  </slot>
+  <Footer />
 </Layout>
