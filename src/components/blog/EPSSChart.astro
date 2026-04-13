@@ -1,0 +1,204 @@
+---
+// src/components/blog/EPSSChart.astro
+// EPSS Version Comparison bar chart using Chart.js + data table (no React)
+
+const data = [
+  { category: 'IMMINENT (≥80%)', v3: 3916, v4: 2578, change: -1338, pctChange: -34.17 },
+  { category: 'ELEVATED (≥50%)', v3: 2526, v4: 4206, change: 1680, pctChange: 66.51 },
+  { category: 'NOTABLE (≥30%)', v3: 1899, v4: 3870, change: 1971, pctChange: 103.79 },
+  { category: 'NEGLIGIBLE (>0%)', v3: 261944, v4: 259671, change: -2273, pctChange: -0.87 },
+];
+---
+
+<div class="epss-chart-wrapper">
+  <div class="chart-container">
+    <canvas id="epss-chart"></canvas>
+  </div>
+
+  <table class="epss-table">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th class="text-right">EPSS v3</th>
+        <th class="text-right">EPSS v4</th>
+        <th class="text-right">Change</th>
+        <th class="text-right">% Change</th>
+      </tr>
+    </thead>
+    <tbody>
+      {data.map((row) => (
+        <tr>
+          <td>{row.category}</td>
+          <td class="text-right">{row.v3.toLocaleString()}</td>
+          <td class="text-right">{row.v4.toLocaleString()}</td>
+          <td class={`text-right ${row.change >= 0 ? 'change-positive' : 'change-negative'}`}>
+            {row.change >= 0 ? '+' : ''}{row.change.toLocaleString()}
+          </td>
+          <td class={`text-right ${row.pctChange >= 0 ? 'change-positive' : 'change-negative'}`}>
+            {row.pctChange >= 0 ? '+' : ''}{row.pctChange.toFixed(2)}%
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .epss-chart-wrapper {
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .chart-container {
+    height: 16rem;
+    margin-bottom: 2rem;
+  }
+  .epss-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .epss-table th,
+  .epss-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .epss-table th {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 0.875rem;
+  }
+  .epss-table td {
+    color: var(--color-text-subtle);
+    font-size: 0.875rem;
+  }
+  .epss-table td.text-right,
+  .epss-table th.text-right {
+    text-align: right;
+  }
+  .change-positive {
+    color: var(--color-danger);
+  }
+  .change-negative {
+    color: var(--color-success);
+  }
+</style>
+
+<script>
+  import {
+    Chart,
+    BarController,
+    BarElement,
+    CategoryScale,
+    LogarithmicScale,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+
+  Chart.register(BarController, BarElement, CategoryScale, LogarithmicScale, Tooltip, Legend);
+
+  const categories = ['IMMINENT (≥80%)', 'ELEVATED (≥50%)', 'NOTABLE (≥30%)', 'NEGLIGIBLE (>0%)'];
+  const v3Values = [3916, 2526, 1899, 261944];
+  const v4Values = [2578, 4206, 3870, 259671];
+
+  let chartInstance: Chart | null = null;
+
+  function getThemeColors() {
+    const style = getComputedStyle(document.documentElement);
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const textColor = style.getPropertyValue('--color-text').trim() || (isDark ? '#e5e7eb' : '#1f2937');
+    const borderColor = style.getPropertyValue('--color-border').trim() || (isDark ? '#374151' : '#e5e7eb');
+    return { textColor, borderColor, isDark };
+  }
+
+  function createChart() {
+    const canvas = document.getElementById('epss-chart') as HTMLCanvasElement | null;
+    if (!canvas) return;
+
+    if (chartInstance) {
+      chartInstance.destroy();
+      chartInstance = null;
+    }
+
+    const { textColor, borderColor } = getThemeColors();
+
+    chartInstance = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: categories,
+        datasets: [
+          {
+            label: 'EPSS v3',
+            data: v3Values,
+            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+            borderColor: 'rgba(59, 130, 246, 1)',
+            borderWidth: 1,
+          },
+          {
+            label: 'EPSS v4',
+            data: v4Values,
+            backgroundColor: 'rgba(249, 115, 22, 0.7)',
+            borderColor: 'rgba(249, 115, 22, 1)',
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            type: 'logarithmic',
+            ticks: {
+              color: textColor,
+            },
+            grid: {
+              color: borderColor,
+            },
+          },
+          x: {
+            ticks: {
+              color: textColor,
+            },
+            grid: {
+              color: borderColor,
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: textColor,
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()}`,
+            },
+          },
+        },
+      },
+    });
+  }
+
+  function init() {
+    createChart();
+
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+          createChart();
+          break;
+        }
+      }
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+  }
+
+  init();
+  document.addEventListener('astro:after-swap', init);
+</script>

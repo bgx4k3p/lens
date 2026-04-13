@@ -1,36 +1,68 @@
 ---
-import { Icon } from 'astro-icon/components';
-import { getPermalink } from '~/utils/permalinks';
-import Button from '~/components/ui/Button.astro';
-
-export interface Props {
+// src/components/blog/Pagination.astro
+// Pagination nav with prev/next buttons
+interface Props {
+  page?: { url: { prev?: string; next?: string } };
   prevUrl?: string;
   nextUrl?: string;
-  prevText?: string;
-  nextText?: string;
 }
 
-const { prevUrl, nextUrl, prevText = 'Newer posts', nextText = 'Older posts' } = Astro.props;
+const { page, prevUrl: directPrev, nextUrl: directNext } = Astro.props;
+
+/** Strip trailing slashes from Astro's paginate() URLs */
+const clean = (url?: string) => url ? url.replace(/\/$/, '') || url : undefined;
+
+const prevUrl = clean(directPrev || page?.url?.prev);
+const nextUrl = clean(directNext || page?.url?.next);
 ---
 
-{
-  (prevUrl || nextUrl) && (
-    <div class="container flex">
-      <div class="flex flex-row mx-auto container justify-between">
-        <Button
-          variant="tertiary"
-          class={`md:px-3 px-3 mr-2 ${!prevUrl ? 'invisible' : ''}`}
-          href={getPermalink(prevUrl)}
-        >
-          <Icon name="tabler:chevron-left" class="w-6 h-6" />
-          <p class="ml-2">{prevText}</p>
-        </Button>
+{(prevUrl || nextUrl) && (
+  <nav class="pagination" aria-label="Pagination">
+    {prevUrl ? (
+      <a href={prevUrl} class="pagination-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        Previous
+      </a>
+    ) : <span></span>}
+    {nextUrl ? (
+      <a href={nextUrl} class="pagination-btn">
+        Next
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+    ) : <span></span>}
+  </nav>
+)}
 
-        <Button variant="tertiary" class={`md:px-3 px-3 ${!nextUrl ? 'invisible' : ''}`} href={getPermalink(nextUrl)}>
-          <span class="mr-2">{nextText}</span>
-          <Icon name="tabler:chevron-right" class="w-6 h-6" />
-        </Button>
-      </div>
-    </div>
-  )
-}
+<style>
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-subtle);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .pagination-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-text);
+  }
+
+  .pagination-btn:active {
+    transform: scale(0.97);
+  }
+</style>
