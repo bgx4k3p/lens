@@ -1,150 +1,347 @@
 ---
-// src/pages/[...blog]/[...page].astro
-import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
-import Layout from '~/layouts/PageLayout.astro';
-import BlogList from '~/components/blog/List.astro';
-import Headline from '~/components/blog/Headline.astro';
-import Pagination from '~/components/blog/Pagination.astro';
-import FeaturedBlogPosts from '~/components/widgets/FeaturedBlogPosts.astro';
-// import PostTags from "~/components/blog/Tags.astro";
-import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
-import { getPermalink } from '~/utils/permalinks';
-
-// Exports
 export const prerender = true;
 
-export const getStaticPaths = (async ({ paginate }) => {
+import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
+import PageLayout from '~/layouts/PageLayout.astro';
+import PostList from '~/components/blog/PostList.astro';
+import Pagination from '~/components/blog/Pagination.astro';
+import { getStaticPathsBlogList, findFeaturedPosts, getPermalink } from '~/lib/blog';
+import { SITE, CATEGORIES } from '~/lib/constants';
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   return await getStaticPathsBlogList({ paginate });
-}) satisfies GetStaticPaths;
-
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-
-const { page } = Astro.props as Props;
-const currentPage = page.currentPage ?? 1;
-
-// const allCategories = await findCategories();
-// const allTags = await findTags();
-
-const metadata = {
-  title: `Blog${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
-  robots: {
-    index: blogListRobots?.index && currentPage === 1,
-    follow: blogListRobots?.follow,
-  },
-  openGraph: {
-    type: 'website',
-  },
 };
 
-let subtitle = 'InfoSec & Tech: Practical Tips & Strategic Insights by bgx4k3p';
-subtitle = subtitle.replace(
-  'bgx4k3p',
-  `<a href="${getPermalink('/bio')}" class="text-blue-500 hover:underline">bgx4k3p</a>`
-);
+const { page } = Astro.props as any;
+const featuredPosts = await findFeaturedPosts();
 ---
 
-<Layout metadata={metadata}>
-  <!-- Main container with wider max-width for sidebar -->
-  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-7xl">
-    <!-- Header -->
-    <div class="max-w-4xl mx-auto mb-12">
-      <Headline subtitle={subtitle}>The bgx Lens</Headline>
-    </div>
-
-    <!-- Main content with sidebar layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
-      <!-- Main blog content (3/4 width) -->
-      <div class="lg:col-span-3">
-        <BlogList posts={page.data} />
-        <div class="mt-12">
-          <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
-        </div>
-        <!--
-          <PostTags tags={allCategories} class="mb-2" title="Search by Categories:" isCategory />
-          <PostTags tags={allTags}  title="Search by Tags:" />
-        -->
+<PageLayout title={`Blog | ${SITE.name}`} description={SITE.description}>
+  <section class="blog-page">
+    <div class="blog-page-inner">
+      <div class="blog-header reveal">
+        <h1 class="blog-headline">The bgx Lens</h1>
+        <p class="blog-subtitle">Solving complex InfoSec & Tech challenges with practical advice and strategic expertise.</p>
       </div>
 
-      <!-- Sidebar (1/4 width) -->
-      <div class="lg:col-span-1">
-        <div class="sticky top-8 space-y-8">
-          <!-- Featured Blog Posts -->
-          <FeaturedBlogPosts
-            title="Featured Posts"
-            count={5}
-            showImage={true}
-            showExcerpt={false}
-            showDate={true}
-            showAuthor={false}
-            classes={{
-              container: 'h-fit',
-            }}
-          />
+      <div class="blog-layout">
+        <div class="blog-main">
+          <PostList posts={page.data} />
+          <Pagination page={page} />
+        </div>
 
-          <!-- Categories -->
-          <div class="bg-transparent dark:bg-transparent rounded-none shadow-none border-none p-6 w-80">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Categories</h3>
-            <div class="space-y-3">
-              <a
-                href={getPermalink('security', 'category')}
-                class="inline-flex items-center w-full px-2 py-1 rounded-full
-                       bg-primary/10 dark:bg-blue-500/10 hover:bg-primary/20 dark:hover:bg-blue-500/20
-                       transition-colors duration-200"
-              >
-                <div class="flex items-center">
-                  <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
-                  <span class="text-xs font-medium text-primary dark:text-blue-400">Security</span>
-                </div>
-              </a>
-              <a
-                href={getPermalink('ai', 'category')}
-                class="inline-flex items-center w-full px-2 py-1 rounded-full
-                       bg-primary/10 dark:bg-green-500/10 hover:bg-primary/20 dark:hover:bg-green-500/20
-                       transition-colors duration-200"
-              >
-                <div class="flex items-center">
-                  <span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
-                  <span class="text-xs font-medium text-primary dark:text-green-400">AI</span>
-                </div>
-              </a>
-              <a
-                href={getPermalink('automation', 'category')}
-                class="inline-flex items-center w-full px-2 py-1 rounded-full
-                       bg-primary/10 dark:bg-purple-500/10 hover:bg-primary/20 dark:hover:bg-purple-500/20
-                       transition-colors duration-200"
-              >
-                <div class="flex items-center">
-                  <span class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>
-                  <span class="text-xs font-medium text-primary dark:text-purple-400">Automation</span>
-                </div>
-              </a>
-              <a
-                href={getPermalink('tutorial', 'category')}
-                class="inline-flex items-center w-full px-2 py-1 rounded-full
-                       bg-primary/10 dark:bg-orange-500/10 hover:bg-primary/20 dark:hover:bg-orange-500/20
-                       transition-colors duration-200"
-              >
-                <div class="flex items-center">
-                  <span class="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>
-                  <span class="text-xs font-medium text-primary dark:text-orange-400">Tutorial</span>
-                </div>
-              </a>
-            </div>
-
-            <div class="mt-4 pt-4 border-t border-gray-100 dark:border-slate-800">
-              <a
-                href={getPermalink('tags')}
-                class="inline-flex items-center text-sm font-medium text-gray-600 dark:text-slate-300 hover:text-primary dark:hover:text-blue-400 transition-colors duration-200"
-              >
-                View all tags
-                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
+        <aside class="blog-sidebar">
+          <div class="sidebar-section glass-card-strong sidebar-sticky">
+            <h3 class="sidebar-title">Featured Posts</h3>
+            <ul class="sidebar-featured-list">
+              {featuredPosts.map((post) => (
+                <li class="sidebar-featured-item">
+                  {post.resolvedImage && (
+                    <a href={getPermalink(post.permalink, 'post')} class="sidebar-featured-image-link">
+                      <Image
+                        src={post.resolvedImage as any}
+                        alt={post.title}
+                        class="sidebar-featured-image"
+                        width={64}
+                        height={43}
+                        loading="lazy"
+                      />
+                    </a>
+                  )}
+                  <div class="sidebar-featured-content">
+                    <a href={getPermalink(post.permalink, 'post')} class="sidebar-featured-title">
+                      {post.title}
+                    </a>
+                    <span class="sidebar-featured-date">
+                      {post.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </span>
+                    {post.category && (
+                      <a href={getPermalink(post.category.slug, 'category')} class="category-badge">
+                        <span class="category-dot"></span>
+                        {post.category.title}
+                      </a>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div class="sidebar-section-footer">
+              <a href={getPermalink('featured')} class="sidebar-link sidebar-link-arrow">
+                View all featured posts <span aria-hidden="true">&rsaquo;</span>
               </a>
             </div>
           </div>
-        </div>
+
+          <div class="sidebar-section glass-card-strong">
+            <h3 class="sidebar-title">Categories</h3>
+            <div class="sidebar-categories-list">
+              {CATEGORIES.map((cat) => (
+                <a
+                  href={getPermalink(cat, 'category')}
+                  class="sidebar-category-bar"
+                  data-category={cat.toLowerCase()}
+                >
+                  <span class="sidebar-category-dot"></span>
+                  <span class="sidebar-category-name">{cat}</span>
+                </a>
+              ))}
+            </div>
+            <div class="sidebar-section-footer">
+              <a href={getPermalink('tags')} class="sidebar-link sidebar-link-arrow">
+                View all tags <span aria-hidden="true">&rsaquo;</span>
+              </a>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   </section>
-</Layout>
+</PageLayout>
+
+<style>
+  /* Page wrapper — matches old AstroWind px-6 py-12 sm:py-16 lg:py-20 max-w-7xl */
+  .blog-page {
+    padding: 6rem 1.5rem 4rem;
+  }
+
+  @media (min-width: 640px) {
+    .blog-page {
+      padding: 7rem 1.5rem 4rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .blog-page {
+      padding: 8rem 1.5rem 5rem;
+    }
+  }
+
+  .blog-page-inner {
+    width: 100%;
+    max-width: 90rem;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .blog-header {
+    text-align: center;
+    max-width: 48rem;
+    margin: 0 auto 3rem;
+  }
+
+  .blog-headline {
+    font-size: var(--fluid-h1);
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+  }
+
+  .blog-subtitle {
+    color: var(--color-text-subtle);
+    font-size: var(--fluid-body);
+    margin: 0;
+  }
+
+  /* Main layout — old AstroWind: grid-cols-4 gap-8 lg:gap-12 */
+  .blog-layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .blog-layout {
+      gap: 3rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .blog-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .blog-main {
+    min-width: 0;
+  }
+
+  /* Sidebar */
+  .blog-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .sidebar-sticky {
+    position: sticky;
+    top: 5rem;
+  }
+
+  .sidebar-section {
+    padding: 1.5rem;
+  }
+
+  .sidebar-title {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.75rem;
+  }
+
+  /* Featured posts with thumbnails + category badges */
+  .sidebar-featured-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-featured-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .sidebar-featured-item:first-child {
+    padding-top: 0;
+  }
+
+  .sidebar-featured-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .sidebar-featured-image-link {
+    flex-shrink: 0;
+    border-radius: 0.375rem;
+    overflow: hidden;
+  }
+
+  .sidebar-featured-image {
+    width: 4rem;
+    height: 2.75rem;
+    object-fit: cover;
+    border-radius: 0.375rem;
+  }
+
+  .sidebar-featured-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .sidebar-featured-title {
+    color: var(--color-text-subtle);
+    font-size: var(--fluid-small);
+    font-weight: 500;
+    text-decoration: none;
+    line-height: 1.35;
+    transition: color 0.2s ease;
+  }
+
+  .sidebar-featured-title:hover {
+    color: var(--color-accent);
+  }
+
+  .sidebar-featured-date {
+    color: var(--color-text-faint);
+    font-size: 0.75rem;
+  }
+
+  .sidebar-section-footer {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .sidebar-link {
+    color: var(--color-text-subtle);
+    font-size: var(--fluid-small);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .sidebar-link:hover {
+    color: var(--color-accent);
+  }
+
+  .sidebar-link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  /* Category bars — color via data attributes, zero inline styles */
+  .sidebar-categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .sidebar-category-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .sidebar-category-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .sidebar-category-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  /* Security */
+  .sidebar-category-bar[data-category="security"] {
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.15) 0%, transparent 100%);
+  }
+  .sidebar-category-bar[data-category="security"]:hover {
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.25) 0%, transparent 100%);
+  }
+  .sidebar-category-bar[data-category="security"] .sidebar-category-dot { background-color: #3b82f6; }
+  .sidebar-category-bar[data-category="security"] .sidebar-category-name { color: #3b82f6; }
+
+  /* AI */
+  .sidebar-category-bar[data-category="ai"] {
+    background: linear-gradient(90deg, rgba(34, 197, 94, 0.15) 0%, transparent 100%);
+  }
+  .sidebar-category-bar[data-category="ai"]:hover {
+    background: linear-gradient(90deg, rgba(34, 197, 94, 0.25) 0%, transparent 100%);
+  }
+  .sidebar-category-bar[data-category="ai"] .sidebar-category-dot { background-color: #22c55e; }
+  .sidebar-category-bar[data-category="ai"] .sidebar-category-name { color: #22c55e; }
+
+  /* Automation */
+  .sidebar-category-bar[data-category="automation"] {
+    background: linear-gradient(90deg, rgba(168, 85, 247, 0.15) 0%, transparent 100%);
+  }
+  .sidebar-category-bar[data-category="automation"]:hover {
+    background: linear-gradient(90deg, rgba(168, 85, 247, 0.25) 0%, transparent 100%);
+  }
+  .sidebar-category-bar[data-category="automation"] .sidebar-category-dot { background-color: #a855f7; }
+  .sidebar-category-bar[data-category="automation"] .sidebar-category-name { color: #a855f7; }
+
+  /* Tutorial */
+  .sidebar-category-bar[data-category="tutorial"] {
+    background: linear-gradient(90deg, rgba(249, 115, 22, 0.15) 0%, transparent 100%);
+  }
+  .sidebar-category-bar[data-category="tutorial"]:hover {
+    background: linear-gradient(90deg, rgba(249, 115, 22, 0.25) 0%, transparent 100%);
+  }
+  .sidebar-category-bar[data-category="tutorial"] .sidebar-category-dot { background-color: #f97316; }
+  .sidebar-category-bar[data-category="tutorial"] .sidebar-category-name { color: #f97316; }
+</style>

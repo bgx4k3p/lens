@@ -8,7 +8,7 @@ tags: [Vulnerability Management, EPSS, Risk, Strategy]
 featured: true
 ---
 
-import EPSSComparisonChart from '~/assets/js/EPSSComparisonChart';
+import EPSSComparisonChart from '~/components/blog/EPSSChart.astro';
 
 ## Transform Your Security Posture with EPSS-Powered Vulnerability Prioritization
 
@@ -36,7 +36,7 @@ This framework provides security teams with defensible, data-driven remediation 
 
 The recent transition from EPSS v3 to v4 represents a significant evolution in vulnerability risk scoring. A comparative analysis of CVE distributions across risk categories reveals important insights about how vulnerabilities in the National Vulnerability Database (NVD) are classified under each version. The following table shows the count of CVEs from NVD as of March 2025 for each risk category:
 
-<EPSSComparisonChart client:load />
+<EPSSComparisonChart />
 
 This redistribution doesn't indicate a reduction in critical vulnerabilities—rather, it reflects more precise risk calibration. The decrease in IMMINENT-rated vulnerabilities paired with increases in ELEVATED and NOTABLE categories suggests EPSSv4 is less prone to overestimating exploitation likelihood, reducing false positives that can drain valuable security resources.
 

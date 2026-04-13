@@ -4,7 +4,8 @@
     "bradlc.vscode-tailwindcss",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
+    "eamodio.gitlens",
+    "anthropic.claude-code",
     "unifiedjs.vscode-mdx"
-  ],
-  "unwantedRecommendations": []
+  ]
 }

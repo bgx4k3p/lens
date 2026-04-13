@@ -1,0 +1,116 @@
+---
+// src/components/blog/TableOfContents.astro
+// Auto-generated table of contents from page headings (client-side)
+---
+
+<aside class="toc-sidebar" id="toc-sidebar">
+  <div class="toc-inner">
+    <h4 class="toc-title">On this page</h4>
+
+    <nav class="toc-nav" id="toc-nav" aria-label="Table of contents">
+    </nav>
+  </div>
+</aside>
+
+<style>
+  .toc-sidebar {
+    display: none;
+  }
+
+  @media (min-width: 1280px) {
+    .toc-sidebar {
+      display: block;
+      position: sticky;
+      top: 6rem;
+      max-height: calc(100vh - 8rem);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-border) transparent;
+    }
+  }
+
+  .toc-inner {
+    padding: 0 0 0 1.5rem;
+    border-left: 1px solid var(--color-border);
+  }
+
+  .toc-title {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--color-text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 0.625rem;
+  }
+
+  .toc-nav :global(a) {
+    display: block;
+    padding: 0.1875rem 0;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--color-text-faint);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .toc-nav :global(a:hover) {
+    color: var(--color-accent);
+  }
+
+  .toc-nav :global(a.active) {
+    color: var(--color-accent);
+  }
+
+  .toc-nav :global(.toc-h3) {
+    padding-left: 0.75rem;
+  }
+</style>
+
+<script>
+  function initTOC() {
+    const nav = document.getElementById('toc-nav');
+    const sidebar = document.getElementById('toc-sidebar');
+    if (!nav || !sidebar) return;
+
+    const article = document.querySelector('article.prose');
+    if (!article) return;
+
+    const headings = article.querySelectorAll('h2, h3');
+    if (headings.length < 2) {
+      sidebar.style.display = 'none';
+      return;
+    }
+
+    nav.innerHTML = '';
+    headings.forEach((heading) => {
+      const id = heading.id;
+      if (!id) return;
+
+      const link = document.createElement('a');
+      link.href = '#' + id;
+      link.textContent = heading.textContent?.replace(/^#\s*/, '') || '';
+      if (heading.tagName === 'H3') link.classList.add('toc-h3');
+      nav.appendChild(link);
+    });
+
+    // Intersection observer for active state
+    const links = nav.querySelectorAll('a');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            links.forEach((l) => l.classList.remove('active'));
+            const active = nav.querySelector('a[href="#' + entry.target.id + '"]');
+            if (active) active.classList.add('active');
+          }
+        });
+      },
+      { rootMargin: '-80px 0px -70% 0px', threshold: 0 }
+    );
+
+    headings.forEach((h) => { if (h.id) observer.observe(h); });
+  }
+
+  initTOC();
+  document.addEventListener('astro:after-swap', initTOC);
+</script>
