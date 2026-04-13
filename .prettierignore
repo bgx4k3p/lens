@@ -1,4 +1,5 @@
-dist
-node_modules
-.github
-.changeset
+dist/
+node_modules/
+.astro/
+public/vendor/
+package-lock.json

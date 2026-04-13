@@ -1,48 +1,176 @@
 ---
-import '~/assets/styles/tailwind.css';
+// src/layouts/Layout.astro
+// Base HTML layout with meta, theme, consent-gated analytics
+import '~/styles/global.css';
+import { SITE } from '~/lib/constants';
 
-import { I18N } from 'astrowind:config';
-
-import CommonMeta from '~/components/common/CommonMeta.astro';
-import Favicons from '~/components/Favicons.astro';
-import CustomStyles from '~/components/CustomStyles.astro';
-import ApplyColorMode from '~/components/common/ApplyColorMode.astro';
-import Metadata from '~/components/common/Metadata.astro';
-import SiteVerification from '~/components/common/SiteVerification.astro';
-import Analytics from '~/components/common/Analytics.astro';
-import BasicScripts from '~/components/common/BasicScripts.astro';
-
-// Comment the line below to disable View Transitions
-import { ClientRouter } from 'astro:transitions';
-
-import type { MetaData as MetaDataType } from '~/types';
-
-export interface Props {
-  metadata?: MetaDataType;
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  robots?: { index?: boolean; follow?: boolean };
 }
 
-const { metadata = {} } = Astro.props;
-const { language, textDirection } = I18N;
+const {
+  title = 'The bgx Lens',
+  description = SITE.description,
+  image = `${SITE.base}/favicon.svg`,
+  canonical,
+  robots = { index: true, follow: true },
+} = Astro.props;
+
+const siteUrl = `${SITE.site}${SITE.base}`;
+const canonicalUrl = canonical || new URL(Astro.url.pathname, SITE.site).href.replace(/\/$/, '');
+const fullTitle = title === 'The bgx Lens' ? title : `${title} | The bgx Lens`;
+const ogImageUrl = image?.startsWith('http') ? image : new URL(image, siteUrl).href;
 ---
 
 <!doctype html>
-<html lang={language} dir={textDirection} class="2xl:text-[20px]">
+<html lang="en">
   <head>
-    <CommonMeta />
-    <Favicons />
-    <CustomStyles />
-    <ApplyColorMode />
-    <Metadata {...metadata} />
-    <SiteVerification />
-    <Analytics />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={`${SITE.base}/favicon.svg`} />
+    <link rel="icon" type="image/x-icon" href={`${SITE.base}/favicon.ico`} />
+    <link rel="apple-touch-icon" href={`${SITE.base}/apple-touch-icon.png`} />
+    <link rel="sitemap" href={`${SITE.base}/sitemap-index.xml`} />
+    <link rel="alternate" type="application/rss+xml" title={SITE.name} href={`${SITE.base}/rss.xml`} />
 
-    <!-- Comment the line below to disable View Transitions -->
-    <ClientRouter fallback="swap" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    {robots.index === false && <meta name="robots" content={`noindex, ${robots.follow === false ? 'nofollow' : 'follow'}`} />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:site_name" content={SITE.name} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@bgx4k3p" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Google Site Verification -->
+    <meta name="google-site-verification" content={SITE.googleSiteVerificationId} />
+
+    <!-- Pagefind search UI styles (loaded from build output) -->
+    <link rel="stylesheet" href={`${SITE.base}/pagefind/pagefind-ui.css`} />
+
+    <slot name="head" />
+
+    <!-- Google Analytics — loaded by Klaro only after consent -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+    </script>
+
+    <!-- Klaro consent manager config (inline to avoid extra request) -->
+    <script is:inline>
+      var klaroConfig = {
+        version: 1,
+        elementID: 'klaro',
+        storageMethod: 'localStorage',
+        storageName: 'klaro-consent',
+        htmlTexts: true,
+        cookieExpiresAfterDays: 365,
+        default: false,
+        mustConsent: false,
+        acceptAll: true,
+        hideDeclineAll: false,
+        hideLearnMore: true,
+        noticeAsModal: false,
+        disablePoweredBy: true,
+        translations: {
+          en: {
+            consentNotice: {
+              description: 'We use cookies for analytics to understand how visitors use this site. You can accept or manage your preferences.',
+            },
+            consentModal: {
+              title: 'Cookie Preferences',
+              description: 'Choose which services you want to allow.',
+            },
+            'google-analytics': {
+              description: 'Website analytics by Google to understand traffic and usage patterns.',
+            },
+            purposes: {
+              analytics: 'Analytics',
+            },
+          },
+        },
+        services: [
+          {
+            name: 'google-analytics',
+            title: 'Google Analytics',
+            purposes: ['analytics'],
+            cookies: [
+              [/^_ga/, '/', '.bgx4k3p.github.io'],
+              [/^_gid/, '/', '.bgx4k3p.github.io'],
+              [/^_gat/, '/', '.bgx4k3p.github.io'],
+            ],
+            callback: function(consent, service) {
+              if (consent) {
+                // Load gtag.js only after consent
+                var script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-X1GDCLQGXH';
+                document.head.appendChild(script);
+                script.onload = function() {
+                  gtag('js', new Date());
+                  gtag('config', 'G-X1GDCLQGXH', {
+                    anonymize_ip: true,
+                    send_page_view: true,
+                  });
+                };
+              }
+            },
+            required: false,
+            optOut: false,
+            onlyOnce: true,
+          },
+        ],
+      };
+    </script>
+
+    <!-- Klaro consent manager (self-hosted, themed via klaro.css in global.css) -->
+    <script is:inline defer src="/lens/vendor/klaro.min.js"></script>
+
+    <!-- Theme init (inline to prevent FOUC) -->
+    <script is:inline>
+      (function () {
+        var stored = localStorage.getItem('theme');
+        if (stored === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
   </head>
-
-  <body class="antialiased text-default text-base bg-page tracking-tight">
+  <body>
     <slot />
 
-    <BasicScripts />
+    <!-- Scroll reveal observer -->
+    <script is:inline>
+      (function () {
+        var observer = new IntersectionObserver(
+          function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+        document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+      })();
+    </script>
   </body>
 </html>

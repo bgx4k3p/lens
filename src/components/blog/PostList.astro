@@ -1,0 +1,36 @@
+---
+import type { Post } from '~/lib/blog';
+import PostCard from './PostCard.astro';
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+---
+
+<ul class="post-feed">
+  {posts.map((post, i) => (
+    <li class="post-feed-item">
+      <PostCard post={post} index={i} />
+    </li>
+  ))}
+</ul>
+
+<style>
+  .post-feed {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .post-feed-item {
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .post-feed-item {
+      margin-bottom: 5rem;
+    }
+  }
+</style>

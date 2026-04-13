@@ -1,7 +1,41 @@
-# Blog
+# The bgx Lens
 
-[![GitHub license](https://img.shields.io/github/license/cotes2020/chirpy-starter.svg?color=blue)][mit]
+Personal blog covering cybersecurity, vulnerability management, AI, automation, and infrastructure topics.
 
-[https://bgx4k3p.github.io/lens](https://bgx4k3p.github.io/lens)
+## Tech Stack
 
-[mit]: https://github.com/cotes2020/chirpy-starter/blob/master/LICENSE
+- **Framework**: Astro 5 + TypeScript
+- **Styling**: Tailwind CSS 4 + custom design tokens
+- **Code Blocks**: Expressive Code (macOS-style frames)
+- **Search**: Pagefind (static search index)
+- **Deployment**: Cloudflare Pages
+- **Linting**: ESLint (strict design token enforcement) + Prettier + markdownlint
+- **Security**: gitleaks + Semgrep + Trivy (CI/CD)
+- **Consent**: Klaro (self-hosted, opt-in)
+
+## Development
+
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+npm run preview
+```
+
+## Quality
+
+```bash
+npm run check      # Astro check + ESLint + Prettier
+npm run lint       # ESLint only
+npm run lint:md    # Markdown lint
+npm run format     # Auto-fix formatting
+```
+
+## License
+
+MIT
