@@ -1,24 +1,44 @@
 ---
-import Layout from '~/layouts/Layout.astro';
-import { getHomePermalink } from '~/utils/permalinks';
+export const prerender = true;
 
-const title = `Error 404`;
+import PageLayout from '~/layouts/PageLayout.astro';
+import { SITE } from '~/lib/constants';
 ---
 
-<Layout metadata={{ title }}>
-  <section class="flex items-center h-full p-16">
-    <div class="container flex flex-col items-center justify-center px-5 mx-auto my-8">
-      <div class="max-w-md text-center">
-        <h2 class="mb-8 font-bold text-9xl">
-          <span class="sr-only">Error</span>
-          <span class="text-primary">404</span>
-        </h2>
-        <p class="text-3xl font-semibold md:text-3xl">Sorry, we couldn't find this page.</p>
-        <p class="mt-4 mb-8 text-lg text-muted dark:text-slate-400">
-          But dont worry, you can find plenty of other things on our homepage.
-        </p>
-        <a rel="noopener noreferrer" href={getHomePermalink()} class="btn ml-4">Back to homepage</a>
+<PageLayout title={`Page Not Found | ${SITE.name}`} description="The page you are looking for does not exist." robots={{ index: false, follow: false }}>
+  <section class="section section-page-top not-found">
+    <div class="container">
+      <div class="not-found-content reveal">
+        <h1 class="not-found-code"><span class="gradient-text">404</span></h1>
+        <p class="not-found-message">The page you are looking for does not exist.</p>
+        <a href={SITE.base} class="btn-primary">Back to Home</a>
       </div>
     </div>
   </section>
-</Layout>
+</PageLayout>
+
+<style>
+  .not-found {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .not-found-content {
+    text-align: center;
+    width: 100%;
+  }
+
+  .not-found-code {
+    font-size: clamp(6rem, 15vw, 12rem);
+    font-weight: 800;
+    line-height: 1;
+    margin: 0 0 1rem;
+  }
+
+  .not-found-message {
+    color: var(--color-text-subtle);
+    font-size: var(--fluid-h3);
+    margin: 0 0 2rem;
+  }
+</style>

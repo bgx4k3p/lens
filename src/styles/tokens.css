@@ -1,0 +1,78 @@
+/*
+ * The bgx Lens — Design tokens
+ * Dark-first theme with data-theme='light' override.
+ */
+
+/* Brand palette */
+:root {
+  --color-accent: #2563eb;
+  --color-accent-hover: #60a5fa;
+  --color-accent-text: #93c5fd;
+  --color-success: #00d4a0;
+  --color-danger: #f06850;
+  --color-warning: #ffd166;
+}
+
+/* Dark (default) */
+:root {
+  color-scheme: dark;
+  --color-bg: #0a0c12;
+  --color-bg-card: #161924;
+  --color-bg-elevated: #202430;
+  --color-bg-hover: #2a2e3c;
+  --color-border: #343848;
+  --color-border-strong: #444860;
+  --color-text: #e4e5e9;
+  --color-text-subtle: #c0c1c7;
+  --color-text-faint: #8b8d97;
+  --color-fg-inverse: #ffffff;
+
+  /* Glass surfaces */
+  --glass-bg: rgba(22, 25, 36, 0.6);
+  --glass-bg-strong: rgba(22, 25, 36, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-overlay: rgba(255, 255, 255, 0.05);
+  --glass-overlay-hover: rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --glass-shadow-hover: 0 4px 24px rgba(59, 130, 246, 0.15);
+  --glass-inner-highlight: rgba(255, 255, 255, 0.06);
+  --glass-inner-highlight-strong: rgba(255, 255, 255, 0.1);
+
+  --modal-overlay: rgba(0, 0, 0, 0.5);
+  --popup-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Light */
+:root[data-theme='light'] {
+  color-scheme: light;
+  --color-bg: #f8f9fc;
+  --color-bg-card: #ffffff;
+  --color-bg-elevated: #f5f7fc;
+  --color-bg-hover: #e5e8f2;
+  --color-border: #dce0e8;
+  --color-border-strong: #c4c8d4;
+  --color-text: #1a1c23;
+  --color-text-subtle: #4a4c56;
+  --color-text-faint: #6b6d82;
+  --color-fg-inverse: #ffffff;
+
+  --color-accent-hover: #1d4ed8;
+  --color-accent-text: #1e40af;
+
+  --color-success: #008f6e;
+  --color-danger: #c94432;
+  --color-warning: #b87800;
+
+  --glass-bg: rgba(255, 255, 255, 0.5);
+  --glass-bg-strong: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-overlay: rgba(255, 255, 255, 0.6);
+  --glass-overlay-hover: rgba(255, 255, 255, 0.8);
+  --glass-shadow: 0 1px 2px hsl(220 60% 50% / 0.06), 0 2px 4px hsl(220 60% 50% / 0.04);
+  --glass-shadow-hover: 0 4px 16px hsl(220 60% 50% / 0.1), 0 2px 4px hsl(220 60% 50% / 0.05);
+  --glass-inner-highlight: rgba(255, 255, 255, 0.7);
+  --glass-inner-highlight-strong: rgba(255, 255, 255, 0.9);
+
+  --modal-overlay: rgba(0, 0, 0, 0.3);
+  --popup-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px hsl(220 60% 50% / 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
