@@ -1,31 +1,116 @@
 ---
-import { APP_BLOG } from 'astrowind:config';
+import { Image } from 'astro:assets';
+import type { Post } from '~/lib/blog';
+import { getRelatedPosts, getPermalink } from '~/lib/blog';
 
-import { getRelatedPosts } from '~/utils/blog';
-import BlogHighlightedPosts from '../widgets/BlogHighlightedPosts.astro';
-import type { Post } from '~/types';
-import { getBlogPermalink } from '~/utils/permalinks';
-
-export interface Props {
+interface Props {
   post: Post;
 }
 
 const { post } = Astro.props;
-
-const relatedPosts = post.tags ? await getRelatedPosts(post, 4) : [];
+const relatedPosts = await getRelatedPosts(post, 4);
 ---
 
-{
-  APP_BLOG.isRelatedPostsEnabled ? (
-    <BlogHighlightedPosts
-      classes={{
-        container:
-          'pt-0 lg:pt-0 md:pt-0 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade',
-      }}
-      title="Related Posts"
-      linkText="View All Posts"
-      linkUrl={getBlogPermalink()}
-      postIds={relatedPosts.map((post) => post.id)}
-    />
-  ) : null
-}
+{relatedPosts.length > 0 && (
+  <section class="related-posts">
+    <h2 class="related-posts-title">Related Posts</h2>
+    <div class="related-grid">
+      {relatedPosts.map((related) => (
+        <a href={getPermalink(related.permalink, 'post')} class="related-card glass-card">
+          {related.resolvedImage && (
+            <Image
+              src={related.resolvedImage as any}
+              alt={related.title}
+              class="related-card-image"
+              width={400}
+              height={225}
+              loading="lazy"
+            />
+          )}
+          <div class="related-card-body">
+            {related.category && (
+              <span class="category-badge">
+                <span class="category-dot"></span>
+                {related.category.title}
+              </span>
+            )}
+            <h3 class="related-card-title">{related.title}</h3>
+            <time class="related-card-date" datetime={related.publishDate.toISOString()}>
+              {related.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </time>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .related-posts {
+    margin-top: 3rem;
+  }
+
+  .related-posts-title {
+    font-size: var(--fluid-h2);
+    font-weight: 700;
+    margin: 0 0 1.5rem;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .related-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .related-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .related-card {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+  }
+
+  .related-card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 1rem 1rem 0 0;
+  }
+
+  .related-card-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .related-card-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 0;
+    color: var(--color-text);
+    transition: color 0.2s ease;
+  }
+
+  .related-card:hover .related-card-title {
+    color: var(--color-accent);
+  }
+
+  .related-card-date {
+    color: var(--color-text-faint);
+    font-size: 0.75rem;
+  }
+</style>

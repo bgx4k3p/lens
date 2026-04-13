@@ -1,0 +1,201 @@
+---
+// src/components/shared/Header.astro
+// Fixed glass header with nav, dropdown, theme toggle, mobile menu
+import ThemeToggle from './ThemeToggle.astro';
+import SearchButton from './SearchButton.astro';
+import { SITE } from '~/lib/constants';
+
+const base = SITE.base;
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href={base} class="site-logo">
+      <span class="site-logo-text">The bgx Lens</span>
+    </a>
+
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href={base} class="site-nav-link">Home</a>
+
+      <div class="nav-dropdown">
+        <button class="site-nav-link nav-dropdown-trigger" type="button" aria-expanded="false" aria-haspopup="true">
+          Category
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href={`${base}/category/security`} class="nav-dropdown-item">Security</a>
+          <a href={`${base}/category/ai`} class="nav-dropdown-item">AI</a>
+          <a href={`${base}/category/automation`} class="nav-dropdown-item">Automation</a>
+          <a href={`${base}/category/tutorial`} class="nav-dropdown-item">Tutorial</a>
+        </div>
+      </div>
+
+      <a href={`${base}/tags`} class="site-nav-link">Tags</a>
+      <a href={`${base}/bio`} class="site-nav-link">About me</a>
+    </nav>
+
+    <div class="header-actions">
+      <SearchButton />
+      <ThemeToggle />
+
+      <button class="icon-btn header-menu-btn" aria-label="Open menu" aria-expanded="false" type="button">
+        <svg class="menu-open-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+        <svg class="menu-close-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-menu" aria-label="Mobile navigation" aria-hidden="true">
+    <a href={base} class="mobile-nav-link">Home</a>
+    <div class="mobile-nav-divider"></div>
+    <a href={`${base}/category/security`} class="mobile-nav-link">Security</a>
+    <a href={`${base}/category/ai`} class="mobile-nav-link">AI</a>
+    <a href={`${base}/category/automation`} class="mobile-nav-link">Automation</a>
+    <a href={`${base}/category/tutorial`} class="mobile-nav-link">Tutorial</a>
+    <div class="mobile-nav-divider"></div>
+    <a href={`${base}/tags`} class="mobile-nav-link">Tags</a>
+    <a href={`${base}/bio`} class="mobile-nav-link">About me</a>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: 1px solid transparent;
+    transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+  }
+
+  .site-header.is-scrolled {
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom-color: var(--glass-border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 4rem;
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .header-inner {
+      padding: 0 2rem;
+    }
+  }
+
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .header-menu-btn {
+    display: none;
+  }
+
+  .menu-close-icon {
+    display: none;
+  }
+
+  /* Mobile menu panel */
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem 1.5rem 1.5rem;
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .mobile-menu.is-open {
+    display: flex;
+  }
+
+  /* Mobile breakpoint */
+  @media (max-width: 768px) {
+    .header-nav {
+      display: none;
+    }
+
+    .header-menu-btn {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  function initHeader() {
+    const header = document.querySelector('.site-header');
+    const menuBtn = document.querySelector('.header-menu-btn');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const openIcon = document.querySelector('.menu-open-icon');
+    const closeIcon = document.querySelector('.menu-close-icon');
+
+    function onScroll() {
+      if (window.scrollY > 60) {
+        header?.classList.add('is-scrolled');
+      } else {
+        header?.classList.remove('is-scrolled');
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    menuBtn?.addEventListener('click', () => {
+      const isOpen = mobileMenu?.classList.toggle('is-open');
+      if (openIcon instanceof HTMLElement && closeIcon instanceof HTMLElement) {
+        openIcon.style.display = isOpen ? 'none' : 'block';
+        closeIcon.style.display = isOpen ? 'block' : 'none';
+      }
+      menuBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+      menuBtn.setAttribute('aria-expanded', String(!!isOpen));
+      if (mobileMenu instanceof HTMLElement) {
+        mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileMenu?.classList.contains('is-open')) {
+        mobileMenu.classList.remove('is-open');
+        if (openIcon instanceof HTMLElement && closeIcon instanceof HTMLElement) {
+          openIcon.style.display = 'block';
+          closeIcon.style.display = 'none';
+        }
+        menuBtn?.setAttribute('aria-expanded', 'false');
+        if (mobileMenu instanceof HTMLElement) {
+          mobileMenu.setAttribute('aria-hidden', 'true');
+        }
+      }
+    });
+  }
+
+  initHeader();
+  document.addEventListener('astro:after-swap', initHeader);
+</script>

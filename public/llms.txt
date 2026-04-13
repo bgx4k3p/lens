@@ -1,0 +1,20 @@
+# The bgx Lens — Personal Blog by bgx4k3p
+
+> Personal blog covering cybersecurity, vulnerability management, AI, automation, and infrastructure topics. Written by Emil Chukalov, a security leader with 18+ years of experience.
+
+## Topics
+- Enterprise Vulnerability Management (EPSS, CVE prioritization, risk frameworks)
+- AI and automation in cybersecurity
+- Infrastructure automation (Proxmox, Ansible, AWX, Kubernetes)
+- Linux administration and scripting
+- Penetration testing and red team operations
+
+## Author
+Emil Chukalov — VP Director, Information Security Engineering
+Certifications: CISSP, GSLC, GCSA, GCPN, GXPN, OSCP, CEH
+Education: MS Computer Forensics (George Mason University)
+
+## Links
+- Blog: https://bgx4k3p.github.io/lens
+- GitHub: https://github.com/bgx4k3p
+- LinkedIn: https://linkedin.com/in/chukalov
